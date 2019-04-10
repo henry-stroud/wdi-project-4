@@ -1,0 +1,21 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+flask = "*"
+flask-sqlalchemy = "*"
+flask-marshmallow = "*"
+marshmallow-sqlalchemy = "*"
+flask-bcrypt = "*"
+psycopg2-binary = '*'
+pyjwt = "*"
+spotify-charts-api = "*"
+requests = "*"
+python-dateutil = "*"
+
+[requires]
+python_version = "3.7"

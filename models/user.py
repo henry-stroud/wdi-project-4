@@ -72,6 +72,8 @@ class UserSchema(ma.ModelSchema, BaseSchema):
 
     likes = fields.Nested('VideoSchema', many=True, only=('id', 'name'))
 
+    user_transaction = fields.Nested('TransactionSchema', many=True)
+
     class Meta:
         model = User
         exclude = ('password_hash',)

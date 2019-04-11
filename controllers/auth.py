@@ -21,6 +21,7 @@ def register():
     if errors:
         return jsonify(errors), 422
 
+    user.balance = 10000
     user.save()
 
     return jsonify({'message': 'Registration Successful'}), 201

@@ -36,7 +36,7 @@ def postVideo():
         'title' : data['data'].get('items')[0].get('snippet')['title'],
         'videoId' : data['data'].get('items')[0].get('id'),
         'view_count' : data['data'].get('items')[0].get('statistics')['viewCount'],
-        'price': int(view_count) / date_difference.days / 500
+        'price': int(view_count) / date_difference.days / 346
     }
     vidId = my_dict['videoId']
     # video_get = Video.query.get(my_dict['videoId'])
@@ -70,7 +70,7 @@ def updateVideos():
         today = datetime.now(timezone.utc)
         date_difference = today - parsed_date
         video.view_count = updated_view_count
-        video.price = int(updated_view_count) / date_difference.days / 500
+        video.price = int(updated_view_count) / date_difference.days / 346
         video.save()
     return video_schema.jsonify(videos, many=True), 200
 

@@ -34,8 +34,8 @@ class Transaction(db.Model, BaseModel):
     __tablename__ = 'transactions'
 
     buy = db.Column(db.Boolean)
-    price_of_deal = db.Column(db.Integer, nullable=False)
-    view_count_at_buy = db.Column(db.String(128), nullable=False)
+    price_of_deal = db.Column(db.Integer)
+    view_count_at_deal = db.Column(db.String(128))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = db.relationship('User', backref='user_transaction')
     video_id = db.Column(db.Integer, db.ForeignKey('videos.id'))

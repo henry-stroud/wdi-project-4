@@ -21,7 +21,7 @@ class App extends React.Component {
   }
 
   getSpecificVideoData() {
-    axios.post('/api/videos/localvideo', { videoId: 'mWRLepUjE3U' })
+    axios.post('/api/videos/localvideo', { videoId: 'JyECrGp-Sw8' })
       .then((res) => this.setState({videoInfo: res.data}, () => axios.post('/api/videos/localvideo/post', {data: res.data})
         .then((res) => this.setState({returnedVidInfo: res.data}))
         .catch((err) => console.log(err))))

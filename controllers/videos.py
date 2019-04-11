@@ -14,6 +14,7 @@ api = Blueprint('videos', __name__)
 @api.route('/videos/localvideo', methods=['POST'])
 def getVideoData():
     data = request.get_json()
+    print(request)
     params = {
     'key': 'AIzaSyCnnirPLrCc-C-tUYCcZKv3Z2O0yBrcM-g',
     'id': data['videoId'],
@@ -31,13 +32,24 @@ def postVideo():
     parsed_date = parse(published_at)
     today = datetime.now(timezone.utc)
     date_difference = today - parsed_date
-    my_dict = {
-        'published_at' : data['data'].get('items')[0].get('snippet')['publishedAt'],
-        'title' : data['data'].get('items')[0].get('snippet')['title'],
-        'videoId' : data['data'].get('items')[0].get('id'),
-        'view_count' : data['data'].get('items')[0].get('statistics')['viewCount'],
-        'price': int(view_count) / date_difference.days / 346
-    }
+    print(date_difference, 'datediff')
+    print(date_difference.days, 'days')
+    if date_difference.days:
+        my_dict = {
+            'published_at' : data['data'].get('items')[0].get('snippet')['publishedAt'],
+            'title' : data['data'].get('items')[0].get('snippet')['title'],
+            'videoId' : data['data'].get('items')[0].get('id'),
+            'view_count' : data['data'].get('items')[0].get('statistics')['viewCount'],
+            'price': int(view_count) / date_difference.days / 346
+        }
+    elif not date_difference.days:
+        my_dict = {
+            'published_at' : data['data'].get('items')[0].get('snippet')['publishedAt'],
+            'title' : data['data'].get('items')[0].get('snippet')['title'],
+            'videoId' : data['data'].get('items')[0].get('id'),
+            'view_count' : data['data'].get('items')[0].get('statistics')['viewCount'],
+            'price': int(view_count) / 0.4 / 346
+        }
     vidId = my_dict['videoId']
     # video_get = Video.query.get(my_dict['videoId'])
     video_get = Video.query.filter_by(videoId=vidId).first()
@@ -70,7 +82,10 @@ def updateVideos():
         today = datetime.now(timezone.utc)
         date_difference = today - parsed_date
         video.view_count = updated_view_count
-        video.price = int(updated_view_count) / date_difference.days / 346
+        if date_difference.days:
+            video.price = int(updated_view_count) / date_difference.days / 346
+        elif not date_difference.days:
+            video.price = int(updated_view_count) / 0.4 / 346
         video.save()
     return video_schema.jsonify(videos, many=True), 200
 

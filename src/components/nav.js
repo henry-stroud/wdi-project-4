@@ -22,16 +22,16 @@ class Nav extends Component {
                   <Link to="/">YouBet</Link>
                 </li>
                 <li>
-                  <a href="#">Register</a>
+                  <Link to="/register">Register</Link>
                 </li>
                 <li>
-                  <a href="#">Login</a>
+                  <Link to="/login">Login</Link>
                 </li>
                 <li>
-                  <a href="#">Portfolio</a>
+                  <Link to="/portfolio">My Portfolio</Link>
                 </li>
                 <li>
-                  <a href="#">Balance</a>
+                  <Link to="/balance">My Balance</Link>
                 </li>
               </ul>
             </div>

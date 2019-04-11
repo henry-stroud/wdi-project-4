@@ -30,3 +30,36 @@
     }
   }
 }
+
+.video-grid {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  padding: 10px;
+  justify-content: center;
+}
+
+.video {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 500px;
+  height: 500px;
+  padding: 10px;
+}
+
+.video-title {
+  max-width: 500px;
+}
+
+#description {
+  font-weight: 800;
+  font-size: 120%;
+}
+
+.price {
+  color: green;
+  span {
+    color: black;
+  }
+}

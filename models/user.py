@@ -61,7 +61,7 @@ class UserSchema(ma.ModelSchema, BaseSchema):
 
     password = fields.String(
         required=True,
-        validate=[validate.Length(min=8, max=50)]
+        validate=[validate.Length(min=2, max=50)]
     )
     # this is defining what i want in my json object before i store it in sql
 

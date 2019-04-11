@@ -63,3 +63,72 @@
     color: black;
   }
 }
+
+.contains-loginForm, .contains-registerForm {
+  background-color: rgba(50, 50, 50, 0.7);
+  display: flex;
+  height: 320px;
+  width: 300px;
+  flex-direction: column;
+  border: 2px solid black;
+  border-radius: 5px;
+  margin: 0 auto;
+  margin-top: 100px;
+  button {
+    margin-top: 5px;
+    color: white;
+    outline: none;
+    border-radius: 20px;
+    background: black;
+    border: 1px solid black;
+    font-size: 12px;
+    cursor: pointer;
+    align-self: center;
+    width: 40%;
+  }
+  .registerInput {
+    width: 75%;
+    outline: none;
+    border-radius: 20px;
+    height: 25px;
+    border: 3px solid black;
+    font-size: 12px;
+    padding-left: 10px;
+    margin: 10px;
+  }
+  p {
+    text-align: center;
+    padding-bottom: 7px;
+    a {
+      text-decoration: none;
+      color: black;
+    }
+    a:hover {
+      text-decoration: underline;
+      color: black;
+
+    }
+  }
+  .loginForm, .registerForm {
+    padding: 20px 20px 0 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    .loginFormInput, {
+      width: 75%;
+      outline: none;
+      border-radius: 20px;
+      height: 25px;
+      border: 3px solid black;
+      font-size: 12px;
+      padding-left: 10px;
+      margin: 12px;
+
+    }
+  }
+}
+
+.contains-loginForm {
+  height: 250px;
+}

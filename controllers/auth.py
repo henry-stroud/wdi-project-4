@@ -31,8 +31,9 @@ def register():
 def login():
 
     data = request.get_json()
+    print(data, 'this is the login json')
 
-    user = User.query.filter_by(email=data.get('email')).first()
+    user = User.query.filter_by(username=data.get('username')).first()
     # we are finding the user that is trying to login, first one you find should be the exact match
 
     if not user or not user.validate_password(data.get('password', '')):

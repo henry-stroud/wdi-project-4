@@ -1,1 +1,32 @@
-
+* {
+  font-family: 'Roboto', sans-serif;
+}
+.navbar-items {
+  border-bottom: 2px solid black;
+  ul {
+    padding: 0;
+  }
+  li {
+    display: inline;
+    font-size: 13px;
+    list-style-type: none;
+    margin-left: 30px;
+  }
+  a {
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 20px;
+    color: black;
+    &:hover {
+      color: white;
+    }
+  }
+  @media (max-width: 500px) {
+    padding: 10px 0;
+    li {
+      padding: 10px 0;
+      display: block;
+      margin-left: 0;
+    }
+  }
+}

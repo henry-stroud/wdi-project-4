@@ -132,3 +132,31 @@
 .contains-loginForm {
   height: 250px;
 }
+
+.search-form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  .inputSearch {
+    width: 60%;
+    outline: none;
+    border-radius: 20px;
+    height: 25px;
+    border: 3px solid black;
+    font-size: 12px;
+    padding-left: 10px;
+    margin: 4px;
+  }
+  button {
+    display: none;
+  }
+}
+
+.searching {
+  display: flex;
+  margin-top: 40px;
+  width: 50%;
+  min-width: 306px;
+  justify-content: center;
+}

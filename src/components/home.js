@@ -35,13 +35,13 @@ class Home extends Component {
   }
 
   getTopVideos() {
-    axios.get('https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=AIzaSyCnnirPLrCc-C-tUYCcZKv3Z2O0yBrcM-g')
+    axios.get('https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=AIzaSyAsHZqHg5wP7NE4psIz3Yrq6XFKAIUgknY')
       .then((res) => this.setState({topVids: res.data}, () => console.log(this.state.topVids)))
       .catch((err) => console.log(err))
   }
 
   searchByQuery(query) {
-    axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${query}&key=AIzaSyCnnirPLrCc-C-tUYCcZKv3Z2O0yBrcM-g`)
+    axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${query}&key=AIzaSyAsHZqHg5wP7NE4psIz3Yrq6XFKAIUgknY`)
       .then((res) => {
         console.log(res.data)
         const filtered = res.data.items.filter(data => data.id && data.id.kind === 'youtube#video')
@@ -68,20 +68,22 @@ class Home extends Component {
     this.setState({specificVideo: video}, () => this.getSpecificVideoData(this.state.specificVideo.id))
   }
 
+  htmlDecode(input){
+    const e = document.createElement('div')
+    e.innerHTML = input
+    return e.childNodes.length === 0 ? '' : e.childNodes[0].nodeValue
+  }
+
   render() {
     {this.state.topVids && console.log(this.state.topVids.items)}
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <div className="field">
-            <div className="control">
-              <input onChange={this.handleChange} className="input" type="text" placeholder="Search..." value={this.state.searchValue || ''}/>
-            </div>
-            <div className="control">
-              <button className="button">
+      <div className="home-page">
+        <form className="search-form" onSubmit={this.handleSubmit}>
+          <div className="searching">
+            <input onChange={this.handleChange} className="inputSearch" type="text" placeholder="Search..." value={this.state.searchValue || ''}/>
+            <button className="button">
               Go!
-              </button>
-            </div>
+            </button>
           </div>
         </form>
         <div className='video-grid'>
@@ -95,7 +97,7 @@ class Home extends Component {
                     specificVideo: this.state.specificVideo
                   }
                 }}></Redirect>}
-              <h2 className='video-title'>{video.snippet.title}</h2>
+              <h2 className='video-title'>{this.htmlDecode(video.snippet.title)}</h2>
               <img src={video.snippet.thumbnails.high.url} width='480' height='360'/>
             </div>
           ))}
@@ -109,7 +111,7 @@ class Home extends Component {
                     specificVideo: this.state.specificVideo
                   }
                 }}></Redirect>}
-              <h2 className='video-title'>{video.snippet.title}</h2>
+              <h2 className='video-title'>{this.htmlDecode(video.snippet.title)}</h2>
               <img src={video.snippet.thumbnails.high.url} width='480' height='360'/>
             </div>
           ))}

@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
 
 
-class Home extends Component {
+class Home extends React.Component {
   constructor() {
     super()
     this.state = {

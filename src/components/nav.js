@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import ResponsiveMenu from 'react-responsive-navbar'
 import { FaBars, FaRegWindowClose } from 'react-icons/fa'
 import { Link, withRouter } from 'react-router-dom'
@@ -7,7 +7,7 @@ import Auth from '../lib/auth'
 
 
 
-class Nav extends Component {
+class Nav extends React.Component {
   constructor() {
     super()
 

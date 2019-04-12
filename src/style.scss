@@ -1,3 +1,5 @@
+@import './_skeleton.scss';
+
 * {
   font-family: 'Roboto', sans-serif;
 }
@@ -159,4 +161,15 @@
   width: 50%;
   min-width: 306px;
   justify-content: center;
+}
+
+.buyButton {
+  background-color: green;
+  color: black;
+  border: none;
+}
+.sellButton {
+  background-color: red;
+  color: black;
+  border: none;
 }

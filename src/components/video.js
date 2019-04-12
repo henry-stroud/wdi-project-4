@@ -1,17 +1,28 @@
-import React, { Component } from 'react'
+import React from 'react'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
 
-class Video extends Component {
+import Auth from '../lib/auth'
+
+class Video extends React.Component {
   constructor() {
     super()
     this.state = {}
+
+    this.handleClick = this.handleClick.bind(this)
   }
 
   componentDidMount() {
     console.log(this.props.location.state)
   }
 
+  handleClick(boolean) {
+    const videoId = this.props.location.state.videoData.videoId
+    axios.post('/api/transactions', { buy: boolean, videoId: videoId.toString() }, { headers: { Authorization: `Bearer ${Auth.getToken()}`} })
+      .then((res) => console.log(res))
+      .then(() => this.props.history.push('/portfolio'))
+      .catch((err) => console.log(err.response))
+  }
 
   render() {
     return (
@@ -25,6 +36,12 @@ class Video extends Component {
               <p><span id='description'>Description: </span>{this.props.location.state.specificVideo.snippet.description} </p>
             </div>
             <h3 className="price"><span>Current Price :</span> ${this.props.location.state.videoData.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} </h3>
+            {Auth.isAuthenticated() &&
+              <button className="buyButton" onClick={() => this.handleClick('True')}>Buy</button>
+            }
+            {Auth.isAuthenticated() &&
+            <button className="sellButton" onClick={() => this.handleClick('False')}>Sell</button>
+            }
           </div>
         }
       </div>

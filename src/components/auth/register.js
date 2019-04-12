@@ -2,8 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 
-import Auth from '../../lib/auth'
-
 class Register extends React.Component {
   constructor() {
     super()
@@ -38,7 +36,6 @@ class Register extends React.Component {
     e.preventDefault()
     axios.post('api/register', this.state.data)
       .then(res => {
-        Auth.setToken(res.data.token)
         this.props.history.push('/login')
         console.log(res.data)
       })

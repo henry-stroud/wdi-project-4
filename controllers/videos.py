@@ -16,7 +16,7 @@ def getVideoData():
     data = request.get_json()
     print(request)
     params = {
-    'key': 'AIzaSyAsHZqHg5wP7NE4psIz3Yrq6XFKAIUgknY',
+    'key': 'AIzaSyB_ai6LMXdXkBPXmc1-eehxI3_58dTLbvM',
     'id': data['videoId'],
     }
     response = requests.get(
@@ -70,7 +70,7 @@ def updateVideos():
     print(videos, 'ALLVIDS')
     for video in videos:
         params = {
-        'key': 'AIzaSyAsHZqHg5wP7NE4psIz3Yrq6XFKAIUgknY',
+        'key': 'AIzaSyB_ai6LMXdXkBPXmc1-eehxI3_58dTLbvM',
         'id': video.videoId,
         }
         response = requests.get(

@@ -35,13 +35,13 @@ class Home extends React.Component {
   }
 
   getTopVideos() {
-    axios.get('https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=AIzaSyAsHZqHg5wP7NE4psIz3Yrq6XFKAIUgknY')
+    axios.get('https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=AIzaSyB_ai6LMXdXkBPXmc1-eehxI3_58dTLbvM')
       .then((res) => this.setState({topVids: res.data}, () => console.log(this.state.topVids)))
       .catch((err) => console.log(err))
   }
 
   searchByQuery(query) {
-    axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${query}&key=AIzaSyAsHZqHg5wP7NE4psIz3Yrq6XFKAIUgknY`)
+    axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${query}&key=AIzaSyB_ai6LMXdXkBPXmc1-eehxI3_58dTLbvM`)
       .then((res) => {
         console.log(res.data)
         const filtered = res.data.items.filter(data => data.id && data.id.kind === 'youtube#video')

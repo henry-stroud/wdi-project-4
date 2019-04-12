@@ -18,6 +18,7 @@ class Video extends React.Component {
 
   handleClick(boolean) {
     const videoId = this.props.location.state.videoData.videoId
+    console.log(videoId, 'this is the video ID')
     axios.post('/api/transactions', { buy: boolean, videoId: videoId.toString() }, { headers: { Authorization: `Bearer ${Auth.getToken()}`} })
       .then((res) => console.log(res))
       .then(() => this.props.history.push('/portfolio'))

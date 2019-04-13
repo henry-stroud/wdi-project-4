@@ -35,15 +35,22 @@ class Portfolio extends React.Component {
         const videoTransactions = []
         transactions.forEach(function (transaction) {
           if (transaction.buy && video.id === transaction.videos) {
-            videoTransactions.push([{id: video.id, price_at_deal: transaction.price_of_deal, view_count_at_deal: transaction.view_count_at_deal, created_at: transaction.created_at}])
+            videoTransactions.push([{id: video.id, price_at_deal: transaction.price_of_deal, view_count_at_deal: transaction.view_count_at_deal, date_of_deal: transaction.created_at}])
           }
         })
         const latest = videoTransactions.reduce(function (r, a) {
-          return r.created_at > a.created_at ? r : a
+          return r.date_of_deal > a.date_of_deal ? r : a
         })
-        array.push(latest)
+        const newArray = {...latest[0]}
+        array.push(newArray)
       })
-      console.log(array, 'this is the array of objects')    
+      console.log(array, 'this is the array of objects')
+      this.setState({...this.state, ownedVideoData: array}, () => console.log(this.state))
+      const result = this.state.userProfile.owned_videos.map(ownedVideo => ({...array.find(data => ownedVideo.id === data.id), ...ownedVideo}))
+      console.log(result, 'final object my guy')
+      const userProfile = {...this.state.userProfile}
+      userProfile.owned_videos = result
+      this.setState({userProfile}, () => console.log(this.state, 'new prof'))
     }
   }
 
@@ -65,25 +72,36 @@ class Portfolio extends React.Component {
               <thead>
                 <tr>
                   <th>Video Title</th>
-                  <th>Data Purchased</th>
+                  <th>Video Publish Date</th>
+                  <th>Date Purchased</th>
                   <th>Price Purchased At</th>
                   <th>Current Price</th>
-                  <th>Current View Count</th>
                   <th>View Count at Purchase</th>
+                  <th>Current View Count</th>
+
                   <th>Profit/Loss($)</th>
                   <th>Profit/Loss(%)</th>
                 </tr>
               </thead>
               <tbody>
-                {this.state.userProfile.owned_videos.length &&
+                {(this.state.userProfile.owned_videos.length && this.state.userProfile.owned_videos[0].view_count_at_deal) &&
               this.state.userProfile.owned_videos.map((video, i) => (
                 <tr key={i}>
                   <td>{video.title} </td>
-                  <td></td>
-                  <td></td>
+                  <td>{video.published_at} </td>
+                  <td>{video.date_of_deal}</td>
+                  <td>${video.price_at_deal.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</td>
                   <td>${video.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</td>
+                  <td>{video.view_count_at_deal.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</td>
                   <td>{video.view_count.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} </td>
-                  <td> </td>
+                  <td className={(video.price - video.price_at_deal || video.price - video.price_at_deal === 0) ? 'profit-loss-profit' : 'profit-loss-loss'}>
+                    {(video.price - video.price_at_deal || video.price - video.price_at_deal === 0) ? '+' : '-'}
+                    ${Math.abs(video.price - video.price_at_deal)}
+                  </td>
+
+                  <td className={((((video.price - video.price_at_deal) / video.price_at_deal) * 100) || (((video.price - video.price_at_deal) / video.price_at_deal) * 100) === 0) ? 'profit-loss-profit' : 'profit-loss-loss'}>
+                    {((((video.price - video.price_at_deal) / video.price_at_deal) * 100) || (((video.price - video.price_at_deal) / video.price_at_deal) * 100) === 0) ? '+' : '-'}
+                    {(((video.price - video.price_at_deal) / video.price_at_deal) * 100).toFixed(2)}%</td>
                 </tr>
               ))
                 }
@@ -97,15 +115,5 @@ class Portfolio extends React.Component {
     )
   }
 }
-
-// <td>{this.state.userProfile.user_transaction.filter((transaction, i) => (
-//   <div key={i}>
-//     {transaction.videos = video.id}
-//   </div>
-// )).map((transaction, i) => (
-//   <div key={i}>
-//     {transaction.price_of_deal}
-//   </div>
-// ))}</td>
 
 export default Portfolio

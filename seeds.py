@@ -15,7 +15,7 @@ with app.app_context():
         'email': 'henry@email.com',
         'password': 'password',
         'password_confirmation': 'password',
-        'balance': 10000
+        'balance': 100000
     })
 
     if errors:

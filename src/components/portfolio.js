@@ -1,13 +1,20 @@
 import React from 'react'
 import axios from 'axios'
+import { Link, Redirect } from 'react-router-dom'
+
 
 import Auth from '../lib/auth'
+import Moment from 'react-moment'
 
 
 class Portfolio extends React.Component {
   constructor() {
     super()
-    this.state = {}
+    this.state = {
+      redirect: false
+    }
+
+    this.handleClick = this.handleClick.bind(this)
 
   }
 
@@ -54,6 +61,18 @@ class Portfolio extends React.Component {
     }
   }
 
+  getSpecificVideoData(id) {
+    axios.post('/api/videos/localvideo', { videoId: id.toString() })
+      .then((res) => this.setState({videoInfo: res.data}))
+      .then(() => this.setState({redirect: this.state.redirect}))
+  }
+
+  handleClick(video) {
+    this.setState({videoData: video}, () => this.getSpecificVideoData(video.videoId))
+  }
+
+
+
   render() {
     {this.state && console.log(this.state)}
     return (
@@ -78,7 +97,6 @@ class Portfolio extends React.Component {
                   <th>Current Price</th>
                   <th>View Count at Purchase</th>
                   <th>Current View Count</th>
-
                   <th>Profit/Loss($)</th>
                   <th>Profit/Loss(%)</th>
                 </tr>
@@ -87,9 +105,19 @@ class Portfolio extends React.Component {
                 {(this.state.userProfile.owned_videos.length && this.state.userProfile.owned_videos[0].view_count_at_deal) &&
               this.state.userProfile.owned_videos.map((video, i) => (
                 <tr key={i}>
-                  <td>{video.title} </td>
-                  <td>{video.published_at} </td>
-                  <td>{video.date_of_deal}</td>
+                  <td onClick={() => this.handleClick(video)}>{this.state.redirect && <Redirect to={{
+                    pathname: '/video',
+                    state: {
+                      videoData: this.state.videoData,
+                      specificVideo: this.state.videoInfo
+                    }
+                  }} ></Redirect>}{video.title}</td>
+                  <td><Moment date={video.published_at}
+                    durationFromNow
+                  /> ago</td>
+                  <td><Moment date={video.date_of_deal}
+                    durationFromNow
+                  /> ago</td>
                   <td>${video.price_at_deal.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</td>
                   <td>${video.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</td>
                   <td>{video.view_count_at_deal.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</td>

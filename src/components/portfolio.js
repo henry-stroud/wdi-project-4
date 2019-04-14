@@ -94,14 +94,14 @@ class Portfolio extends React.Component {
                   <td>${video.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</td>
                   <td>{video.view_count_at_deal.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</td>
                   <td>{video.view_count.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} </td>
-                  <td className={(video.price - video.price_at_deal || video.price - video.price_at_deal === 0) ? 'profit-loss-profit' : 'profit-loss-loss'}>
-                    {(video.price - video.price_at_deal || video.price - video.price_at_deal === 0) ? '+' : '-'}
-                    ${Math.abs(video.price - video.price_at_deal)}
+                  <td className={(video.price - video.price_at_deal >= 0 || video.price - video.price_at_deal === 0) ? 'profit-loss-profit' : 'profit-loss-loss'}>
+                    {(video.price - video.price_at_deal >= 0 || video.price - video.price_at_deal === 0) ? '+' : '-'}
+                    ${Math.abs(video.price - video.price_at_deal).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}
                   </td>
 
-                  <td className={((((video.price - video.price_at_deal) / video.price_at_deal) * 100) || (((video.price - video.price_at_deal) / video.price_at_deal) * 100) === 0) ? 'profit-loss-profit' : 'profit-loss-loss'}>
-                    {((((video.price - video.price_at_deal) / video.price_at_deal) * 100) || (((video.price - video.price_at_deal) / video.price_at_deal) * 100) === 0) ? '+' : '-'}
-                    {(((video.price - video.price_at_deal) / video.price_at_deal) * 100).toFixed(2)}%</td>
+                  <td className={((((video.price - video.price_at_deal > 0) / video.price_at_deal) * 100) || (((video.price - video.price_at_deal) / video.price_at_deal) * 100) === 0) ? 'profit-loss-profit' : 'profit-loss-loss'}>
+                    {((((video.price - video.price_at_deal) / video.price_at_deal) * 100) >= 0 || (((video.price - video.price_at_deal) / video.price_at_deal) * 100) === 0) ? '+' : '-'}
+                    {Math.abs((((video.price - video.price_at_deal) / video.price_at_deal) * 100)).toFixed(2)}%</td>
                 </tr>
               ))
                 }

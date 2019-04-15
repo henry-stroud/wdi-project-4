@@ -2,6 +2,9 @@ import React from 'react'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
 
+const apiKey = process.env.YOUTUBE_API_KEY
+
+console.log(apiKey, 'hello')
 
 class Home extends React.Component {
   constructor() {
@@ -35,13 +38,13 @@ class Home extends React.Component {
   }
 
   getTopVideos() {
-    axios.get('https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=AIzaSyB_ai6LMXdXkBPXmc1-eehxI3_58dTLbvM')
+    axios.get(`https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=${apiKey}`)
       .then((res) => this.setState({topVids: res.data}, () => console.log(this.state.topVids)))
       .catch((err) => console.log(err))
   }
 
   searchByQuery(query) {
-    axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${query}&key=AIzaSyB_ai6LMXdXkBPXmc1-eehxI3_58dTLbvM`)
+    axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${query}&key=${apiKey}`)
       .then((res) => {
         console.log(res.data)
         const filtered = res.data.items.filter(data => data.id && data.id.kind === 'youtube#video')

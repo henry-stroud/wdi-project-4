@@ -4,6 +4,14 @@ from models.video import Video, VideoSchema, Comment, CommentSchema
 import requests, json
 from datetime import datetime, date, timezone
 from dateutil.parser import parse
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
+
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+
+API_KEY = os.environ.get("YOUTUBE_API_KEY")
 
 
 video_schema = VideoSchema()
@@ -16,7 +24,7 @@ def getVideoData():
     data = request.get_json()
     print(request)
     params = {
-    'key': 'AIzaSyB_ai6LMXdXkBPXmc1-eehxI3_58dTLbvM',
+    'key': API_KEY,
     'id': data['videoId'],
     }
     response = requests.get(
@@ -66,11 +74,12 @@ def postVideo():
 
 @api.route('/videos/localvideos/update', methods=['PUT'])
 def updateVideos():
+    print(API_KEY, 'APIKEY')
     videos = Video.query.all()
     print(videos, 'ALLVIDS')
     for video in videos:
         params = {
-        'key': 'AIzaSyB_ai6LMXdXkBPXmc1-eehxI3_58dTLbvM',
+        'key': API_KEY,
         'id': video.videoId,
         }
         response = requests.get(

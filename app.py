@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy # pipenv install flask-alchemy psycopg2-
 from flask_marshmallow import Marshmallow # pipenv install flask-marshmallow marshmallow-sqlalchemy
 from flask_bcrypt import Bcrypt
 
+
 # created .env file to set environment to development
 
 # the name part tells Flask this is the main file of the app

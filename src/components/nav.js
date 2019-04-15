@@ -56,6 +56,12 @@ class Nav extends React.Component {
                 <li>
                   <Link to="/">YouBet</Link>
                 </li>
+                <li>
+                  <Link to="/videos">Top Videos</Link>
+                </li>
+                <li>
+                  <Link to="/leaderboard">Leaderboard</Link>
+                </li>
                 {!Auth.isAuthenticated() &&
                 <li>
                   <Link to="/register">Register</Link>
@@ -69,11 +75,6 @@ class Nav extends React.Component {
                 {Auth.isAuthenticated() &&
                 <li>
                   <Link to="/portfolio">My Portfolio</Link>
-                </li>
-                }
-                {Auth.isAuthenticated() &&
-                <li>
-                  <Link to="/leaderboard">Leaderboard</Link>
                 </li>
                 }
                 {(this.state.userProfile !== undefined && this.state.userProfile.balance) &&

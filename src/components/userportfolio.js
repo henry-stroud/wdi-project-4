@@ -75,15 +75,14 @@ class UserPortfolio extends React.Component {
     {this.state && console.log(this.state, 'PROFILESTATE')}
     return (
       <div>{this.state.userProfile &&
-      <div>
-        <h3>Cash Balance: <span className="price">${this.state.userProfile.balance.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span></h3>
+      <div className="portfolio-container">
+        <h3 className="top-head">Cash Balance: <span className="price">${this.state.userProfile.balance.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span></h3>
         {this.state.holdingsValue &&
-        <div>
+        <div className="portfolio-container">
           <h3>Holdings Value: <span className="price">${this.state.holdingsValue.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span></h3>
 
           <h3>Total Portfolio Value: <span className="price">${(this.state.userProfile.balance + this.state.holdingsValue).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span></h3>
           <h2>Video Portfolio:</h2>
-
           <table className="u-full-width">
             <thead>
               <tr>

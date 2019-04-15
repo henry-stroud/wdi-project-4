@@ -91,7 +91,7 @@ class Portfolio extends React.Component {
       <div>
         {this.state.userProfile &&
         <div>
-          <h3>Cash Balance: <span className="price">${this.state.userProfile.balance.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span></h3>
+          <h3 className="top-head">Cash Balance: <span className="price">${this.state.userProfile.balance.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span></h3>
           {this.state.holdingsValue &&
           <div>
             <h3>Holdings Value: <span className="price">${this.state.holdingsValue.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span></h3>

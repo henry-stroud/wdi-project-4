@@ -2,6 +2,7 @@ import React from 'react'
 import ResponsiveMenu from 'react-responsive-navbar'
 import { FaBars, FaRegWindowClose } from 'react-icons/fa'
 import { Link, withRouter } from 'react-router-dom'
+import axios from 'axios'
 
 import Auth from '../lib/auth'
 
@@ -20,7 +21,27 @@ class Nav extends React.Component {
     this.props.history.push('/')
   }
 
+  componentDidMount() {
+    this.grabUserData()
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.userProfile) {
+      if(prevState.userProfile === this.state.userProfile) {
+        this.grabUserData()
+        console.log('navbar grabbing user data')
+      }
+    }
+  }
+
+  grabUserData() {
+    axios.get('/api/currentuser', { headers: { Authorization: `Bearer ${Auth.getToken()}`} })
+      .then((res) => this.setState({userProfile: res.data}))
+      .catch((err) => console.log(err))
+  }
+
   render() {
+    (this.state && console.log(this.state, 'NAVBAR STATE'))
     return (
       <div>
         <ResponsiveMenu
@@ -52,8 +73,17 @@ class Nav extends React.Component {
                 }
                 {Auth.isAuthenticated() &&
                 <li>
-                  <Link to="/balance">My Balance</Link>
+                  <Link to="/leaderboard">Leaderboard</Link>
                 </li>
+                }
+                {(this.state.userProfile !== undefined && this.state.userProfile.balance) &&
+                <>
+                  {Auth.isAuthenticated() &&
+                <li>
+                  <Link to="/portfolio"><span className="price">${this.state.userProfile.balance.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span></Link>
+                </li>
+                  }
+                </>
                 }
                 {Auth.isAuthenticated() &&
                 <li onClick={this.logout}>

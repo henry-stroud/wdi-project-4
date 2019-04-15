@@ -15,13 +15,17 @@ class Portfolio extends React.Component {
     }
 
     this.handleClick = this.handleClick.bind(this)
+    this.handleSellClick = this.handleSellClick.bind(this)
 
   }
 
   componentDidMount() {
+    this.grabUserData()
+  }
+
+  grabUserData() {
     axios.get('/api/currentuser', { headers: { Authorization: `Bearer ${Auth.getToken()}`} })
       .then((res) => this.setState({userProfile: res.data}, () => this.calculateHoldings(this.state.userProfile)))
-      .then(()=> console.log(this.state, 'STATE'))
       .catch((err) => console.log(err))
   }
 
@@ -64,11 +68,19 @@ class Portfolio extends React.Component {
   getSpecificVideoData(id) {
     axios.post('/api/videos/localvideo', { videoId: id.toString() })
       .then((res) => this.setState({videoInfo: res.data}))
-      .then(() => this.setState({redirect: this.state.redirect}))
+      .then(() => this.setState({redirect: !this.state.redirect}))
   }
 
   handleClick(video) {
     this.setState({videoData: video}, () => this.getSpecificVideoData(video.videoId))
+  }
+
+  handleSellClick(video) {
+    console.log(video)
+    axios.post('/api/transactions', { buy: false, videoId: video.videoId.toString() }, { headers: { Authorization: `Bearer ${Auth.getToken()}`} })
+      .then((res) => console.log(res))
+      .then(() => this.grabUserData())
+      .catch((err) => console.log(err.response))
   }
 
 
@@ -99,17 +111,18 @@ class Portfolio extends React.Component {
                   <th>Current View Count</th>
                   <th>Profit/Loss($)</th>
                   <th>Profit/Loss(%)</th>
+                  <th>Sell</th>
                 </tr>
               </thead>
               <tbody>
                 {(this.state.userProfile.owned_videos.length && this.state.userProfile.owned_videos[0].view_count_at_deal) &&
               this.state.userProfile.owned_videos.map((video, i) => (
                 <tr key={i}>
-                  <td onClick={() => this.handleClick(video)}>{this.state.redirect && <Redirect to={{
+                  <td className="video-link"onClick={() => this.handleClick(video)}>{this.state.redirect && <Redirect to={{
                     pathname: '/video',
                     state: {
                       videoData: this.state.videoData,
-                      specificVideo: this.state.videoInfo
+                      specificVideo: this.state.videoInfo.items[0]
                     }
                   }} ></Redirect>}{video.title}</td>
                   <td><Moment date={video.published_at}
@@ -129,7 +142,9 @@ class Portfolio extends React.Component {
 
                   <td className={((((video.price - video.price_at_deal > 0) / video.price_at_deal) * 100) || (((video.price - video.price_at_deal) / video.price_at_deal) * 100) === 0) ? 'profit-loss-profit' : 'profit-loss-loss'}>
                     {((((video.price - video.price_at_deal) / video.price_at_deal) * 100) >= 0 || (((video.price - video.price_at_deal) / video.price_at_deal) * 100) === 0) ? '+' : '-'}
-                    {Math.abs((((video.price - video.price_at_deal) / video.price_at_deal) * 100)).toFixed(2)}%</td>
+                    {Math.abs((((video.price - video.price_at_deal) / video.price_at_deal) * 100)).toFixed(2)}%
+                  </td>
+                  <td className="sell-button"><button onClick={() => this.handleSellClick(video)} className="btn btn-primary mb1 bg-red sellButton">Sell</button></td>
                 </tr>
               ))
                 }

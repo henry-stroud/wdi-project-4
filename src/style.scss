@@ -48,6 +48,7 @@
   width: 500px;
   height: 500px;
   padding: 10px;
+  cursor: pointer;
 }
 
 .video-title {
@@ -169,7 +170,7 @@
   border: none;
 }
 .sellButton {
-  background-color: red;
+  background-color: #fc433e;
   color: black;
   border: none;
 }
@@ -179,4 +180,15 @@
 }
 .profit-loss-loss {
   color: red;
+}
+
+.video-link {
+  color: #1EAEDB;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.video-link:hover {
+     text-decoration:none;
+     text-shadow: 0.1px 0.1px 0.1px #0FA0CE;
 }

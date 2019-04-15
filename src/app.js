@@ -7,6 +7,8 @@ import Video from './components/video'
 import Portfolio from './components/portfolio'
 import Register from './components/auth/register'
 import Login from './components/auth/login'
+import LeaderBoard from './components/leaderboard'
+import UserPortfolio from './components/userportfolio'
 
 
 import './style.scss'
@@ -28,6 +30,8 @@ class App extends React.Component {
             <Route path="/register" component={Register}/>
             <Route path="/login" component={Login}/>
             <Route path="/portfolio" component={Portfolio}/>
+            <Route path="/userportfolio" component={UserPortfolio}/>
+            <Route path="/leaderboard" component={LeaderBoard}/>
           </Switch>
         </div>
       </Browser>

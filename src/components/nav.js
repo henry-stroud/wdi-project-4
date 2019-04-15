@@ -80,7 +80,7 @@ class Nav extends React.Component {
                 <>
                   {Auth.isAuthenticated() &&
                 <li>
-                  <Link to="/portfolio"><span className="price">${this.state.userProfile.balance.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span></Link>
+                  <Link to="/portfolio"><span className="price"><span>Balance:</span> ${this.state.userProfile.balance.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span></Link>
                 </li>
                   }
                 </>

@@ -41,7 +41,9 @@ def create():
                 transaction.save()
                 video_get.save()
                 return transaction_schema.jsonify(transaction), 200
-        return jsonify({'message': 'cant process transaction, balance not high enough or video already purchased'}), 401
+        if video_get in current_user.owned_videos:
+            return jsonify({'message': 'Cannot process transaction, you already own this video'}), 401
+        return jsonify({'message': 'Cannot process transaction, balance not high enough'}), 401
     print('THIS IS A SELL')
     if video_get in current_user.owned_videos:
         transaction, errors = transaction_schema.load(data)
@@ -56,4 +58,4 @@ def create():
         transaction.save()
         video_get.save()
         return transaction_schema.jsonify(transaction), 200
-    return jsonify({'message': 'cant process transaction, user does not own this video'}), 401
+    return jsonify({'message': 'Cannot process transaction, you do not own this video'}), 401

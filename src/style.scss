@@ -168,11 +168,13 @@
   background-color: green;
   color: black;
   border: none;
+  margin: 4px;
 }
 .sellButton {
   background-color: #fc433e;
   color: black;
   border: none;
+  margin: 4px;
 }
 
 .profit-loss-profit {
@@ -191,4 +193,47 @@
 .video-link:hover {
      text-decoration:none;
      text-shadow: 0.1px 0.1px 0.1px #0FA0CE;
+}
+
+.buttons-and-error {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-message {
+  display: flex;
+  justify-content: center;
+  p {
+    color: red;
+  }
+}
+
+.video-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-frame {
+  padding: 20px;
+}
+
+.video-heading {
+  margin-top: 40px;
+}
+
+.description-box {
+  width: 50%;
+  align-items: center;
+  justify-content: center;
+  text-align: justify;
+}
+
+.desc-cont {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }

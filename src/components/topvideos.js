@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import { Link, Redirect } from 'react-router-dom'
+import Moment from 'react-moment'
 
 class TopVideos extends React.Component {
   constructor() {
@@ -19,7 +20,7 @@ class TopVideos extends React.Component {
       .then((res) => {
         const videoArray = res.data
         const sorted = videoArray.sort(this.compare)
-        this.setState({topVideos: sorted})
+        this.setState({topVideos: sorted}, () => console.log(this.state))
       })
       .catch((err) => console.log(err))
   }
@@ -51,6 +52,7 @@ class TopVideos extends React.Component {
             <tr>
               <th>Position</th>
               <th>Title</th>
+              <th>Date Uploaded</th>
               <th>Price</th>
               <th>View Count</th>
               <th>Owners</th>
@@ -68,6 +70,9 @@ class TopVideos extends React.Component {
                 specificVideo: this.state.videoInfo.items[0]
               }
             }} ></Redirect>}{video.title}</td>
+            <td><Moment date={video.published_at}
+              durationFromNow
+            /> ago</td>
             <td>${video.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</td>
             <td>{video.view_count.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</td>
             <td>{video.owned_by.length.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</td>

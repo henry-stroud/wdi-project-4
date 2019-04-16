@@ -65,7 +65,9 @@ class Portfolio extends React.Component {
       const result = this.state.userProfile.owned_videos.map(ownedVideo => ({...array.find(data => ownedVideo.id === data.id), ...ownedVideo}))
       console.log(result, 'final object my guy')
       const userProfile = {...this.state.userProfile}
-      userProfile.owned_videos = result
+      const sortedResult = result.sort(this.compareDeal)
+      userProfile.owned_videos = sortedResult
+      console.log(userProfile, 'DISDEPROFILE')
       this.setState({userProfile}, () => this.getTransactionData(userProfile))
     }
   }
@@ -94,6 +96,14 @@ class Portfolio extends React.Component {
     if (a.created_at > b.created_at)
       return -1
     if (a.created_at < b.created_at)
+      return 1
+    return 0
+  }
+
+  compareDeal(a,b) {
+    if (a.date_of_deal > b.date_of_deal)
+      return -1
+    if (a.date_of_deal < b.date_of_deal)
       return 1
     return 0
   }

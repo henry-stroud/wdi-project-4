@@ -18,6 +18,7 @@ requests = "*"
 python-dateutil = "*"
 python-dotenv = "*"
 flask-socketio = "*"
+flask-apscheduler = "*"
 
 [requires]
 python_version = "3.7"

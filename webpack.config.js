@@ -26,7 +26,7 @@ module.exports = {
     historyApiFallback: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:4000',
+        target: 'http://localhost:5000',
         secure: false
       }
     }
@@ -38,6 +38,7 @@ module.exports = {
       filename: 'index.html',
       inject: 'body'
     }),
-    process.env.NODE_ENV === 'production' ? new webpack.EnvironmentPlugin({ ...process.env }) : new Dotenv()
+    // process.env.NODE_ENV === 'production' ? new webpack.EnvironmentPlugin({ ...process.env }) : new Dotenv() - for PRODUCTION
+    new Dotenv()
   ]
 }

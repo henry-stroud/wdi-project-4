@@ -52,10 +52,8 @@ class Nav extends React.Component {
           smallMenuClassName="small-menu"
           menu={
             <div className='navbar-items'>
+              <Link to="/"><img src="https://i.imgur.com/UFqAAOY.png" width="100px" height="50px"/></Link>
               <ul>
-                <li>
-                  <Link to="/">YouBet</Link>
-                </li>
                 <li>
                   <Link to="/topvideos">Top Videos</Link>
                 </li>

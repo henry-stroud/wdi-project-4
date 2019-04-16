@@ -2,6 +2,10 @@ import React from 'react'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
 
+const apiKey = process.env.YOUTUBE_API_KEY
+
+console.log(apiKey, 'hello')
+
 class Home extends React.Component {
   constructor() {
     super()
@@ -33,21 +37,37 @@ class Home extends React.Component {
         .catch((err) => console.log(err))))
   }
 
+  // getTopVideos() {
+  //   axios.get('/api/videos/topvideos')
+  //     .then((res) => this.setState({topVids: res.data}, () => console.log(this.state.topVids)))
+  //     .catch((err) => console.log(err))
+  // }
+  //
+  // searchByQuery(query) {
+  //   axios.get('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25', { query: query })
+  //     .then((res) => {
+  //       console.log(res.data)
+  //       const filtered = res.data.items.filter(data => data.id && data.id.kind === 'youtube#video')
+  //       console.log(filtered)
+  //       this.setState({searchResults: filtered}, () => console.log(this.state, 'HELLO'))
+  //     })
+  //     .catch((err) => console.log(err.response))
+  // }
+
   getTopVideos() {
-    axios.get('/api/videos/topvideos')
+    axios.get(`https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=${apiKey}`)
       .then((res) => this.setState({topVids: res.data}, () => console.log(this.state.topVids)))
       .catch((err) => console.log(err))
   }
 
   searchByQuery(query) {
-    axios.get('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25', { query: query })
+    axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${query}&key=${apiKey}`)
       .then((res) => {
         console.log(res.data)
         const filtered = res.data.items.filter(data => data.id && data.id.kind === 'youtube#video')
         console.log(filtered)
         this.setState({searchResults: filtered}, () => console.log(this.state, 'HELLO'))
       })
-      .catch((err) => console.log(err.response))
   }
 
   handleChange({ target: { value }}) {
@@ -87,7 +107,7 @@ class Home extends React.Component {
           </div>
         </form>
         <div className='video-grid'>
-          {this.state.topVids && this.state.topVids.items.map((video, i ) => (
+          {(this.state.topVids && this.state.topVids.items) && this.state.topVids.items.map((video, i ) => (
             <div onClick={() => this.handleClickTop(video)} className='video' key={i}>
               {this.state.redirect && <Redirect
                 to={{

@@ -15,7 +15,7 @@ class Video extends React.Component {
 
   componentDidMount() {
     console.log(this.props.location.state)
-    console.log('hello')
+    console.log(this.props.location.state, 'hellomyguy')
   }
 
   handleClick(boolean) {
@@ -38,6 +38,7 @@ class Video extends React.Component {
             <h4>Posted: <Moment date={this.props.location.state.videoData.published_at}
               durationFromNow
             /> ago </h4>
+            <h5><strong>Owned by :</strong> {this.props.location.state.videoData.owned_by.length} users</h5>
             <div className="desc-cont">
               <div className="description-box">
                 <p><span id='description'>Description: </span>{this.props.location.state.specificVideo.snippet.description} </p>

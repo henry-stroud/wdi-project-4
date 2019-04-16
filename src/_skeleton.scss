@@ -231,7 +231,8 @@ input[type="search"],
 input[type="text"],
 input[type="tel"],
 input[type="url"],
-input[type="password"],
+// input[type="password"],
+input[type="username"],
 textarea,
 select {
   height: 38px;
@@ -248,7 +249,8 @@ input[type="search"],
 input[type="text"],
 input[type="tel"],
 input[type="url"],
-input[type="password"],
+// input[type="password"],
+input[type="username"],
 textarea {
   -webkit-appearance: none;
      -moz-appearance: none;
@@ -263,7 +265,8 @@ input[type="search"]:focus,
 input[type="text"]:focus,
 input[type="tel"]:focus,
 input[type="url"]:focus,
-input[type="password"]:focus,
+// input[type="password"]:focus,
+input[type="username"]:focus,
 textarea:focus,
 select:focus {
   border: 1px solid #33C3F0;

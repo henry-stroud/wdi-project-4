@@ -57,7 +57,7 @@ class Nav extends React.Component {
                   <Link to="/">YouBet</Link>
                 </li>
                 <li>
-                  <Link to="/videos">Top Videos</Link>
+                  <Link to="/topvideos">Top Videos</Link>
                 </li>
                 <li>
                   <Link to="/leaderboard">Leaderboard</Link>

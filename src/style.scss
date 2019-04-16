@@ -68,9 +68,9 @@
 }
 
 .contains-loginForm, .contains-registerForm {
-  background-color: rgba(50, 50, 50, 0.7);
+  background-color: rgba(50, 50, 50, 0.2);
   display: flex;
-  height: 320px;
+  height: 350px;
   width: 300px;
   flex-direction: column;
   border: 2px solid black;
@@ -256,3 +256,9 @@
 //   align-items: center;
 //   justify-content: center;
 // }
+
+.submit-login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -9,6 +9,7 @@ import Register from './components/auth/register'
 import Login from './components/auth/login'
 import LeaderBoard from './components/leaderboard'
 import UserPortfolio from './components/userportfolio'
+import TopVideos from './components/topvideos'
 
 
 import './style.scss'
@@ -32,6 +33,7 @@ class App extends React.Component {
             <Route path="/portfolio" component={Portfolio}/>
             <Route path="/userportfolio" component={UserPortfolio}/>
             <Route path="/leaderboard" component={LeaderBoard}/>
+            <Route path="/topvideos" component={TopVideos}/>
           </Switch>
         </div>
       </Browser>

@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
+import Moment from 'react-moment'
 
 import Auth from '../lib/auth'
 
@@ -33,6 +34,9 @@ class Video extends React.Component {
             <h1 className="video-heading">{this.props.location.state.videoData.title} </h1>
             <iframe className="video-frame" width="560" height="315" src={`https://www.youtube.com/embed/${this.props.location.state.videoData.videoId}`} frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
             <h3>View Count : {this.props.location.state.videoData.view_count.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} </h3>
+            <h4>Posted: <Moment date={this.props.location.state.videoData.published_at}
+              durationFromNow
+            /> ago </h4>
             <div className="desc-cont">
               <div className="description-box">
                 <p><span id='description'>Description: </span>{this.props.location.state.specificVideo.snippet.description} </p>

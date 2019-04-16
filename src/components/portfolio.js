@@ -78,15 +78,24 @@ class Portfolio extends React.Component {
 
   getTransactionData(userProfile) {
     if (userProfile.user_transaction.length) {
-      const newTransactionsObject = userProfile.user_transaction
-      newTransactionsObject.forEach(x => {
+      const newObject = userProfile.user_transaction
+      newObject.forEach(x => {
         axios.get(`/api/videos/${x.videos}`)
           .then((res) => x.videoDataNew = res.data)
           .catch((err) => console.log(err))
 
       })
+      const newTransactionsObject = newObject.sort(this.compare)
       this.setState({newTransactionsObject})
     }
+  }
+
+  compare(a,b) {
+    if (a.created_at > b.created_at)
+      return -1
+    if (a.created_at < b.created_at)
+      return 1
+    return 0
   }
 
 
@@ -201,7 +210,7 @@ class Portfolio extends React.Component {
                 {(this.state.newTransactionsObject && this.state.newTransactionsObject[0].videoDataNew.title) &&
               this.state.newTransactionsObject.map((transaction, i) => (
                 <tr key={i}>
-                  <td className="video-link"onClick={() => this.handleClickTransaction(transaction)}>{this.state.redirect && <Redirect to={{
+                  <td className="video-link"onClick={() => this.handleClick(transaction.videoDataNew)}>{this.state.redirect && <Redirect to={{
                     pathname: '/video',
                     state: {
                       videoData: this.state.videoData,
@@ -214,13 +223,13 @@ class Portfolio extends React.Component {
                   <td><Moment date={transaction.created_at}
                     durationFromNow
                   /> ago</td>
-                  <td>{transaction.buy ?
+                  <td className={transaction.buy ? 'buy-color' : 'sell-color'}>{transaction.buy ?
                     'Buy' : 'Sell'
                   }</td>
                   <td>${transaction.price_of_deal.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</td>
                   <td>{transaction.view_count_at_deal.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</td>
-                  <td>{transaction.videoDataNew.price}</td>
-                  <td>{transaction.videoDataNew.view_count}</td>
+                  <td>${transaction.videoDataNew.price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</td>
+                  <td>{transaction.videoDataNew.view_count.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</td>
                 </tr>
               ))
                 }

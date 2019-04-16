@@ -29,16 +29,16 @@ bcrypt = Bcrypt(app)
 # pylint: disable=C0413, W0611
 from config import routes
 
-# def updateData():
-#     response = requests.put(
-#       'http://localhost:5000/api/videos/localvideos/update')
-#     return response.text, 200, {'Content-Type': 'application/json'}
-#
-# def set_interval(func, sec):
-#     def func_wrapper():
-#         set_interval(func, sec)
-#         func()
-#     t = threading.Timer(sec, func_wrapper)
-#     t.start()
-#     return t
-# set_interval(updateData, 3000)
+def updateData():
+    response = requests.put(
+      'http://localhost:5000/api/videos/localvideos/update')
+    return response.text, 200, {'Content-Type': 'application/json'}
+
+def set_interval(func, sec):
+    def func_wrapper():
+        set_interval(func, sec)
+        func()
+    t = threading.Timer(sec, func_wrapper)
+    t.start()
+    return t
+set_interval(updateData, 300000)

@@ -11,11 +11,16 @@ class Portfolio extends React.Component {
   constructor() {
     super()
     this.state = {
-      redirect: false
+      redirect: false,
+      portfolio: true,
+      transactionHistory: false,
+      transactionVids: []
     }
 
     this.handleClick = this.handleClick.bind(this)
     this.handleSellClick = this.handleSellClick.bind(this)
+    this.portfolioClick = this.portfolioClick.bind(this)
+    this.transactionClick = this.transactionClick.bind(this)
 
   }
 
@@ -83,6 +88,19 @@ class Portfolio extends React.Component {
       .catch((err) => console.log(err.response))
   }
 
+  portfolioClick() {
+    this.setState({transactionHistory: false, portfolio: true})
+  }
+
+  transactionClick() {
+    this.setState({transactionHistory: true, portfolio: false})
+  }
+
+  handleClickTransaction(transaction) {
+    axios.get(`/api/videos/${transaction.videos}`)
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err))
+  }
 
 
   render() {
@@ -97,8 +115,9 @@ class Portfolio extends React.Component {
             <h3>Holdings Value: <span className="price">${this.state.holdingsValue.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span></h3>
 
             <h3>Total Portfolio Value: <span className="price">${(this.state.userProfile.balance + this.state.holdingsValue).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span></h3>
-            <h2>Video Portfolio:</h2>
-
+            <button onClick={this.portfolioClick}>Video Portfolio</button>
+            <button onClick={this.transactionClick}>Transaction History</button>
+            {this.state.portfolio &&
             <table className="u-full-width">
               <thead>
                 <tr>
@@ -150,6 +169,51 @@ class Portfolio extends React.Component {
                 }
               </tbody>
             </table>
+            }
+            {this.state.transactionHistory &&
+            <table className="u-full-width">
+              <thead>
+                <tr>
+                  <th>Video Title</th>
+                  <th>Video Publish Date</th>
+                  <th>Date Of Transaction</th>
+                  <th>Buy/Sell</th>
+                  <th>Price Of Transaction</th>
+                  <th>View Count at Transaction</th>
+                  <th>Current Price</th>
+                  <th>Current View Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(this.state.userProfile.user_transaction.length && this.state.userProfile.user_transaction[0].view_count_at_deal) &&
+              this.state.userProfile.user_transaction.map((transaction, i) => (
+                <tr key={i}>
+                  <td className="video-link"onClick={() => this.handleClickTransaction(transaction)}>{this.state.redirect && <Redirect to={{
+                    pathname: '/video',
+                    state: {
+                      videoData: this.state.videoData,
+                      specificVideo: this.state.videoInfo.items[0]
+                    }
+                  }} ></Redirect>}{transaction.videos}</td>
+                  <td><Moment date={Date.now()}
+                    durationFromNow
+                  /> ago</td>
+                  <td><Moment date={transaction.created_at}
+                    durationFromNow
+                  /> ago</td>
+                  <td>{transaction.buy ?
+                    'Buy' : 'Sell'
+                  }</td>
+                  <td>${transaction.price_of_deal.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</td>
+                  <td>{transaction.view_count_at_deal.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              ))
+                }
+              </tbody>
+            </table>
+            }
           </div>
           }
         </div>

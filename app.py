@@ -3,19 +3,19 @@ from flask import Flask # pipenv install flask
 from flask_sqlalchemy import SQLAlchemy # pipenv install flask-alchemy psycopg2-binary
 from flask_marshmallow import Marshmallow # pipenv install flask-marshmallow marshmallow-sqlalchemy
 from flask_bcrypt import Bcrypt
-
+from config.environment import db_uri
 
 # created .env file to set environment to development
 
 # the name part tells Flask this is the main file of the app
 
-app = Flask(__name__) #start out flask app, equiv of const app = express()
+app = Flask(__name__, static_folder='dist') #start out flask app, equiv of const app = express()
 # at this point we made a route for '/' a function called hom that just returned the text hello world and a status of 200
 
 # connecting up the db, equiv of mongoose.connect(DB_URI)
 #make sure you create the db in terminal first with 'createdb my_db_name_here, i.e createdb planets, add this name after localhost'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://localhost:5432/videos'
+app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #speeds up sql alchemy
 
 # we connect to the sqlalchemy database above, using app with this app .

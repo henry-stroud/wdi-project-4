@@ -5,11 +5,11 @@ import requests, json
 from datetime import datetime, date, timezone
 from dateutil.parser import parse
 import os
-from os.path import join, dirname
-from dotenv import load_dotenv
-
-dotenv_path = join(dirname(__file__), '.env')
-load_dotenv(dotenv_path)
+# from os.path import join, dirname
+# from dotenv import load_dotenv
+#
+# dotenv_path = join(dirname(__file__), '.env')
+# load_dotenv(dotenv_path)
 
 YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY")
 
@@ -99,7 +99,7 @@ def postVideo():
 def updateVideos():
     print(YOUTUBE_API_KEY, 'APIKEY')
     videos = Video.query.all()
-    print(videos, 'ALLVIDS')
+    print(videos, 'VIDEOS UPDATING')
     for video in videos:
         params = {
         'key': YOUTUBE_API_KEY,

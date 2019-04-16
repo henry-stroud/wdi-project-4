@@ -47,7 +47,7 @@ class Home extends React.Component {
         console.log(filtered)
         this.setState({searchResults: filtered}, () => console.log(this.state, 'HELLO'))
       })
-      .catch((err) => console.log(err))
+      .catch((err) => console.log(err.response))
   }
 
   handleChange({ target: { value }}) {

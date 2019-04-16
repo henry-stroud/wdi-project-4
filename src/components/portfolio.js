@@ -66,9 +66,29 @@ class Portfolio extends React.Component {
       console.log(result, 'final object my guy')
       const userProfile = {...this.state.userProfile}
       userProfile.owned_videos = result
-      this.setState({userProfile}, () => console.log(this.state, 'new prof'))
+      this.setState({userProfile}, () => this.getTransactionData(userProfile))
     }
   }
+
+  handleClickTransaction(transaction) {
+    axios.get(`/api/videos/${transaction.videos}`)
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err))
+  }
+
+  getTransactionData(userProfile) {
+    if (userProfile.user_transaction.length) {
+      const newTransactionsObject = userProfile.user_transaction
+      newTransactionsObject.forEach(x => {
+        axios.get(`/api/videos/${x.videos}`)
+          .then((res) => x.videoDataNew = res.data)
+          .catch((err) => console.log(err))
+
+      })
+      this.setState({newTransactionsObject})
+    }
+  }
+
 
   getSpecificVideoData(id) {
     axios.post('/api/videos/localvideo', { videoId: id.toString() })
@@ -95,13 +115,6 @@ class Portfolio extends React.Component {
   transactionClick() {
     this.setState({transactionHistory: true, portfolio: false})
   }
-
-  handleClickTransaction(transaction) {
-    axios.get(`/api/videos/${transaction.videos}`)
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err))
-  }
-
 
   render() {
     {this.state && console.log(this.state)}
@@ -185,8 +198,8 @@ class Portfolio extends React.Component {
                 </tr>
               </thead>
               <tbody>
-                {(this.state.userProfile.user_transaction.length && this.state.userProfile.user_transaction[0].view_count_at_deal) &&
-              this.state.userProfile.user_transaction.map((transaction, i) => (
+                {(this.state.newTransactionsObject && this.state.newTransactionsObject[0].videoDataNew.title) &&
+              this.state.newTransactionsObject.map((transaction, i) => (
                 <tr key={i}>
                   <td className="video-link"onClick={() => this.handleClickTransaction(transaction)}>{this.state.redirect && <Redirect to={{
                     pathname: '/video',
@@ -194,8 +207,8 @@ class Portfolio extends React.Component {
                       videoData: this.state.videoData,
                       specificVideo: this.state.videoInfo.items[0]
                     }
-                  }} ></Redirect>}{transaction.videos}</td>
-                  <td><Moment date={Date.now()}
+                  }} ></Redirect>}{transaction.videoDataNew.title}</td>
+                  <td><Moment date={transaction.videoDataNew.published_at}
                     durationFromNow
                   /> ago</td>
                   <td><Moment date={transaction.created_at}
@@ -206,8 +219,8 @@ class Portfolio extends React.Component {
                   }</td>
                   <td>${transaction.price_of_deal.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</td>
                   <td>{transaction.view_count_at_deal.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</td>
-                  <td></td>
-                  <td></td>
+                  <td>{transaction.videoDataNew.price}</td>
+                  <td>{transaction.videoDataNew.view_count}</td>
                 </tr>
               ))
                 }

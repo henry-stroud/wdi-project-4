@@ -17,6 +17,7 @@ spotify-charts-api = "*"
 requests = "*"
 python-dateutil = "*"
 python-dotenv = "*"
+flask-socketio = "*"
 
 [requires]
 python_version = "3.7"

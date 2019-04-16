@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter as Browser, Route, Switch } from 'react-router-dom'
+import Favicon from 'react-favicon'
+
 import Nav from './components/nav'
 import Home from './components/home'
 import Video from './components/video'
@@ -24,6 +26,7 @@ class App extends React.Component {
     return (
       <Browser>
         <div>
+          <Favicon url="https://img.icons8.com/color/96/000000/youtube-play.png" />
           <Nav />
           <Switch>
             <Route exact path="/" component={Home}/>

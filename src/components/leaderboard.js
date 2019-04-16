@@ -27,6 +27,7 @@ class LeaderBoard extends React.Component {
         sortedArray.sort(this.compare)
         this.setState({sortedArray})
       })
+      .catch((err) => console.log(err))
   }
 
   calculateHoldings(profileData) {

@@ -21,6 +21,7 @@ class TopVideos extends React.Component {
         const sorted = videoArray.sort(this.compare)
         this.setState({topVideos: sorted})
       })
+      .catch((err) => console.log(err))
   }
 
   handleClick(video) {
@@ -31,6 +32,7 @@ class TopVideos extends React.Component {
     axios.post('/api/videos/localvideo', { videoId: id.toString() })
       .then((res) => this.setState({videoInfo: res.data}))
       .then(() => this.setState({redirect: !this.state.redirect}))
+      .catch((err) => console.log(err))
   }
 
   compare(a,b) {

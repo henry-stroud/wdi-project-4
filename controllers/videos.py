@@ -19,6 +19,29 @@ comment_schema = CommentSchema()
 
 api = Blueprint('videos', __name__)
 
+@api.route('/videos/topvideos', methods=['GET'])
+def getTopVids():
+    params = {
+    'key': API_KEY,
+    }
+    response = requests.get(
+      'https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US',
+      params=params)
+    return response.text, 200, {'Content-Type': 'application/json'}
+
+@api.route('/videos/searchvideo', methods=['GET'])
+def searchVideos():
+    data = request.get_json()
+    params = {
+    'key': API_KEY,
+    'q': data['query']
+    }
+    response = requests.get(
+      'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25',
+      params=params)
+    return response.text, 200, {'Content-Type': 'application/json'}
+
+
 @api.route('/videos/localvideo', methods=['POST'])
 def getVideoData():
     data = request.get_json()

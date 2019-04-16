@@ -32,7 +32,6 @@ module.exports = {
     }
   },
   plugins: [
-    new webpack.EnvironmentPlugin({...process.env}),
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       template: 'src/index.html',

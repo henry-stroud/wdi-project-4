@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
-API_KEY = os.environ.get("YOUTUBE_API_KEY")
+YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY")
 
 
 video_schema = VideoSchema()
@@ -22,7 +22,7 @@ api = Blueprint('videos', __name__)
 @api.route('/videos/topvideos', methods=['GET'])
 def getTopVids():
     params = {
-    'key': API_KEY,
+    'key': YOUTUBE_API_KEY,
     }
     response = requests.get(
       'https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US',
@@ -33,7 +33,7 @@ def getTopVids():
 def searchVideos():
     data = request.get_json()
     params = {
-    'key': API_KEY,
+    'key': YOUTUBE_API_KEY,
     'q': data['query']
     }
     response = requests.get(
@@ -47,7 +47,7 @@ def getVideoData():
     data = request.get_json()
     print(request)
     params = {
-    'key': API_KEY,
+    'key': YOUTUBE_API_KEY,
     'id': data['videoId'],
     }
     response = requests.get(
@@ -97,12 +97,12 @@ def postVideo():
 
 @api.route('/videos/localvideos/update', methods=['PUT'])
 def updateVideos():
-    print(API_KEY, 'APIKEY')
+    print(YOUTUBE_API_KEY, 'APIKEY')
     videos = Video.query.all()
     print(videos, 'ALLVIDS')
     for video in videos:
         params = {
-        'key': API_KEY,
+        'key': YOUTUBE_API_KEY,
         'id': video.videoId,
         }
         response = requests.get(

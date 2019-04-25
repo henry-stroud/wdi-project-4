@@ -47,5 +47,5 @@ from config import routes
 def updateData():
     print('ran-task')
     response = requests.put(
-      'http://localhost:5000/api/videos/localvideos/update')
+      'https://you-bet.herokuapp.com/api/videos/localvideos/update')
     return response.text, 200, {'Content-Type': 'application/json'}

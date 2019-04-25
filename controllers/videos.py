@@ -108,17 +108,19 @@ def updateVideos():
         response = requests.get(
           'https://www.googleapis.com/youtube/v3/videos?part=statistics%2C%20contentDetails%2C%20snippet',
           params=params)
-        updated_view_count = response.json().get('items')[0].get('statistics')['viewCount']
-        published_date = response.json().get('items')[0].get('snippet')['publishedAt']
-        parsed_date = parse(published_date)
-        today = datetime.now(timezone.utc)
-        date_difference = today - parsed_date
-        video.view_count = updated_view_count
-        if date_difference.days:
-            video.price = int(updated_view_count) / date_difference.days / 346
-        elif not date_difference.days:
-            video.price = int(updated_view_count) / 0.4 / 346
-        video.save()
+        print(response.json(), 'videodatacomingin')
+        if response.json()['items']:
+            updated_view_count = response.json().get('items')[0].get('statistics')['viewCount']
+            published_date = response.json().get('items')[0].get('snippet')['publishedAt']
+            parsed_date = parse(published_date)
+            today = datetime.now(timezone.utc)
+            date_difference = today - parsed_date
+            video.view_count = updated_view_count
+            if date_difference.days:
+                video.price = int(updated_view_count) / date_difference.days / 346
+            elif not date_difference.days:
+                video.price = int(updated_view_count) / 0.4 / 346
+            video.save()
     return video_schema.jsonify(videos, many=True), 200
 
 

@@ -38,7 +38,6 @@ module.exports = {
       filename: 'index.html',
       inject: 'body'
     }),
-    // process.env.NODE_ENV === 'production' ? new webpack.EnvironmentPlugin({ ...process.env }) : new Dotenv() - for PRODUCTION
-    new Dotenv()
+    process.env.NODE_ENV === 'production' ? new webpack.EnvironmentPlugin({ ...process.env }) : new Dotenv()
   ]
 }

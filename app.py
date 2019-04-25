@@ -38,6 +38,10 @@ def run_tasks():
     app.apscheduler.add_job(func=updateData, trigger='interval', seconds=300, id='1')
     return 'Scheduled updating task long running tasks.', 200
 
+@app.route('/stop-tasks')
+def stop_tasks():
+    scheduler.remove_job('1')
+    return 'Scheduled tasks stopping.', 200
 # app.apscheduler.add_job(job_function, 'interval', hours=2)
 
 #we disable the pylint rule below as we need to import here, and pylint will throw an error.

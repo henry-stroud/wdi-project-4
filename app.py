@@ -34,7 +34,7 @@ from config import routes
 
 def updateData():
     print('ran-task')
-    if app.config['ENV'] != 'development':
+    if app.config['ENV'] == 'development':
         response = requests.put(
           'http://localhost:5000/api/videos/localvideos/update')
         return response.text, 200, {'Content-Type': 'application/json'}

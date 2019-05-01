@@ -35,7 +35,7 @@ bcrypt = Bcrypt(app)
 
 @app.route('/run-tasks')
 def run_tasks():
-    app.apscheduler.add_job(func=updateData, trigger='interval', seconds=300, id='1')
+    app.apscheduler.add_job(func=updateData, trigger='interval', seconds=3600, id='1')
     return 'Scheduled updating task long running tasks.', 200
 
 @app.route('/stop-tasks')

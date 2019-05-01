@@ -22,18 +22,23 @@ bcrypt = Bcrypt(app)
 @app.route('/run-tasks')
 def run_tasks():
     scheduler.add_job(func=updateData, trigger='interval', seconds=4320, id='1')
-    return 'Scheduled updating task long running tasks.', 200
+    return 'Video Data Updating Every Hour', 200
 
 @app.route('/stop-tasks')
 def stop_tasks():
     scheduler.remove_job('1')
-    return 'Scheduled tasks stopping.', 200
+    return 'Video Data Stopped Updating', 200
 
 # pylint: disable=C0413, W0611, C0412
 from config import routes
 
 def updateData():
     print('ran-task')
-    response = requests.put(
-      'http://localhost:5000/api/videos/localvideos/update')
-    return response.text, 200, {'Content-Type': 'application/json'}
+    if app.config['ENV'] != 'development':
+        response = requests.put(
+          'http://localhost:5000/api/videos/localvideos/update')
+        return response.text, 200, {'Content-Type': 'application/json'}
+    else:
+        response = requests.put(
+          'https://you-bet.herokuapp.com/api/videos/localvideos/update')
+        return response.text, 200, {'Content-Type': 'application/json'}

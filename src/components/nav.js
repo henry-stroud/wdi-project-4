@@ -29,7 +29,6 @@ class Nav extends React.Component {
     if (this.state.userProfile) {
       if(prevState.userProfile === this.state.userProfile) {
         this.grabUserData()
-        console.log('navbar grabbing user data')
       }
     }
   }
@@ -41,7 +40,6 @@ class Nav extends React.Component {
   }
 
   render() {
-    (this.state && console.log(this.state, 'NAVBAR STATE'))
     return (
       <div>
         <ResponsiveMenu

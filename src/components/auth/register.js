@@ -25,7 +25,6 @@ class Register extends React.Component {
   handleChange({ target: {name, value} }) {
     const data = {...this.state.data, [name]: value}
     this.setState( { data }, () => {
-      console.log(this.state)
       const errors = {...this.state.errors, [name]: ''}
       this.setState({ data, errors })
     } )

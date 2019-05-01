@@ -4,8 +4,6 @@ import { Redirect } from 'react-router-dom'
 
 const apiKey = process.env.YOUTUBE_API_KEY
 
-console.log(apiKey, 'hello')
-
 class Home extends React.Component {
   constructor() {
     super()
@@ -24,7 +22,6 @@ class Home extends React.Component {
     this.getTopVideos()
     axios.get('/api/videos')
       .then((res)=> this.setState({data: res.data}))
-      .then(()=> console.log(this.state.data, 'hello'))
       .catch((err) => console.log(err))
   }
 
@@ -33,28 +30,25 @@ class Home extends React.Component {
       .then((res) => this.setState({videoInfo: res.data}, () => axios.post('/api/videos/localvideo/post', {data: res.data})
         .then((res) => this.setState({returnedVidInfo: res.data}))
         .then(() => this.setState({redirect: !this.state.redirect}))
-        .then(() => console.log(this.state))
         .catch((err) => console.log(err))))
   }
 
   getTopVideos() {
     axios.get(`https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=${apiKey}`)
-      .then((res) => this.setState({topVids: res.data}, () => console.log(this.state.topVids)))
+      .then((res) => this.setState({topVids: res.data}))
       .catch((err) => console.log(err))
   }
 
   searchByQuery(query) {
     axios.get(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${query}&key=${apiKey}`)
       .then((res) => {
-        console.log(res.data)
         const filtered = res.data.items.filter(data => data.id && data.id.kind === 'youtube#video')
-        console.log(filtered)
-        this.setState({searchResults: filtered}, () => console.log(this.state, 'HELLO'))
+        this.setState({searchResults: filtered})
       })
   }
 
   handleChange({ target: { value }}) {
-    this.setState({ searchValue: value}, () => console.log(this.state.searchValue))
+    this.setState({ searchValue: value})
   }
 
   handleSubmit(e) {
@@ -78,7 +72,6 @@ class Home extends React.Component {
   }
 
   render() {
-    {this.state.topVids && console.log(this.state.topVids.items)}
     return (
       <div className="home-page">
         <form className="search-form" onSubmit={this.handleSubmit}>

@@ -90,7 +90,6 @@ def postVideo():
 
 @api.route('/videos/localvideos/update', methods=['PUT'])
 def updateVideos():
-    print(YOUTUBE_API_KEY, 'APIKEY')
     videos = Video.query.all()
     print(videos, 'VIDEOS UPDATING')
     for video in videos:

@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import { Link, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 import Moment from 'react-moment'
 
@@ -17,13 +17,10 @@ class UserPortfolio extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.location.state, 'STATE PASSED DOWN')
-    console.log(this.props.location.state.userProfile, 'STATE PASSED DOWN')
     this.calculateHoldings(this.props.location.state.userProfile)
   }
 
   calculateHoldings(profileData) {
-    console.log(profileData, 'calculateHoldings')
     if (profileData.owned_videos.length) {
       const holdings = profileData.owned_videos.map(x => x.price).reduce((acc, cv) => acc+cv)
       this.setState({holdingsValue: holdings}, () => this.calculatePurchasePrices(this.props.location.state.userProfile))
@@ -50,14 +47,12 @@ class UserPortfolio extends React.Component {
         const newArray = {...latest[0]}
         array.push(newArray)
       })
-      console.log(array, 'this is the array of objects')
-      this.setState({...this.state, ownedVideoData: array}, () => console.log(this.state))
+      this.setState({...this.state, ownedVideoData: array})
       const result = this.props.location.state.userProfile.owned_videos.map(ownedVideo => ({...array.find(data => ownedVideo.id === data.id), ...ownedVideo}))
-      console.log(result, 'final object my guy')
       const userProfile = {...this.props.location.state.userProfile}
       const sortedResult = result.sort(this.compareDeal)
       userProfile.owned_videos = sortedResult
-      this.setState({userProfile}, () => console.log(this.state, 'new prof'))
+      this.setState({userProfile})
     }
   }
 
@@ -82,7 +77,6 @@ class UserPortfolio extends React.Component {
 
 
   render() {
-    {this.state && console.log(this.state, 'PROFILESTATE')}
     return (
       <div>{this.state.userProfile &&
       <div className="portfolio-container">

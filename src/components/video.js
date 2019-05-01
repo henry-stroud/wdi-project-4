@@ -1,6 +1,5 @@
 import React from 'react'
 import axios from 'axios'
-import { Redirect } from 'react-router-dom'
 import Moment from 'react-moment'
 
 import Auth from '../lib/auth'
@@ -13,16 +12,10 @@ class Video extends React.Component {
     this.handleClick = this.handleClick.bind(this)
   }
 
-  componentDidMount() {
-    console.log(this.props.location.state)
-    console.log(this.props.location.state, 'hellomyguy')
-  }
 
   handleClick(boolean) {
     const videoId = this.props.location.state.videoData.videoId
-    console.log(videoId, 'this is the video ID')
     axios.post('/api/transactions', { buy: boolean, videoId: videoId.toString() }, { headers: { Authorization: `Bearer ${Auth.getToken()}`} })
-      .then((res) => console.log(res))
       .then(() => this.props.history.push('/portfolio'))
       .catch((err) => this.setState({errors: err.response.data.message}))
   }

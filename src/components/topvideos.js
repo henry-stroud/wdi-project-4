@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import { Link, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import Moment from 'react-moment'
 
 class TopVideos extends React.Component {
@@ -20,7 +20,7 @@ class TopVideos extends React.Component {
       .then((res) => {
         const videoArray = res.data
         const sorted = videoArray.sort(this.compare)
-        this.setState({topVideos: sorted}, () => console.log(this.state))
+        this.setState({topVideos: sorted})
       })
       .catch((err) => console.log(err))
   }

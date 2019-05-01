@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import { Link, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 class LeaderBoard extends React.Component {
   constructor() {
@@ -57,7 +57,6 @@ class LeaderBoard extends React.Component {
   }
 
   handleClick(user) {
-    console.log(user, 'clicked on user')
     this.setState({clickedOnUser: user}, () => this.setState({redirect: !this.state.redirect}))
 
   }

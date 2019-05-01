@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import { Link, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 
 import Auth from '../lib/auth'
@@ -60,14 +60,11 @@ class Portfolio extends React.Component {
         const newArray = {...latest[0]}
         array.push(newArray)
       })
-      console.log(array, 'this is the array of objects')
-      this.setState({...this.state, ownedVideoData: array}, () => console.log(this.state))
+      this.setState({...this.state, ownedVideoData: array})
       const result = this.state.userProfile.owned_videos.map(ownedVideo => ({...array.find(data => ownedVideo.id === data.id), ...ownedVideo}))
-      console.log(result, 'final object my guy')
       const userProfile = {...this.state.userProfile}
       const sortedResult = result.sort(this.compareDeal)
       userProfile.owned_videos = sortedResult
-      console.log(userProfile, 'DISDEPROFILE')
       this.setState({userProfile}, () => this.getTransactionData(userProfile))
     }
   }
@@ -121,9 +118,7 @@ class Portfolio extends React.Component {
   }
 
   handleSellClick(video) {
-    console.log(video)
     axios.post('/api/transactions', { buy: false, videoId: video.videoId.toString() }, { headers: { Authorization: `Bearer ${Auth.getToken()}`} })
-      .then((res) => console.log(res))
       .then(() => this.grabUserData())
       .catch((err) => console.log(err.response))
   }
@@ -137,7 +132,6 @@ class Portfolio extends React.Component {
   }
 
   render() {
-    {this.state && console.log(this.state)}
     return (
       <div>
         {this.state.userProfile &&

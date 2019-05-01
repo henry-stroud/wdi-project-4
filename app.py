@@ -21,7 +21,7 @@ bcrypt = Bcrypt(app)
 
 @app.route('/run-tasks')
 def run_tasks():
-    scheduler.add_job(func=updateData, trigger='interval', seconds=4320, id='1')
+    scheduler.add_job(func=updateData, trigger='interval', seconds=2160, id='1')
     return 'Video Data Updating Every Hour', 200
 
 @app.route('/stop-tasks')

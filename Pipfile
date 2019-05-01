@@ -19,6 +19,7 @@ python-dateutil = "*"
 python-dotenv = "*"
 flask-socketio = "*"
 flask-apscheduler = "*"
+urllib3 = "*"
 
 [requires]
 python_version = "3.7"

@@ -10,7 +10,6 @@ class BaseModel:
 
     def save(self):
         self.updated_at = datetime.utcnow()
-        # will make sure when the item is updated it gets the current time
         db.session.add(self)
         db.session.commit()
 

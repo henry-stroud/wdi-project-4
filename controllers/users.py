@@ -1,4 +1,4 @@
-from lib.secure_route import secure_route #importing the secure route function
+from lib.secure_route import secure_route
 from flask import Blueprint, request, jsonify, g
 from models.user import UserSchema, User
 

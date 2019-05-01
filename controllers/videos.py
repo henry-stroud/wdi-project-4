@@ -5,14 +5,8 @@ import requests, json
 from datetime import datetime, date, timezone
 from dateutil.parser import parse
 import os
-# from os.path import join, dirname
-# from dotenv import load_dotenv
-#
-# dotenv_path = join(dirname(__file__), '.env')
-# load_dotenv(dotenv_path)
 
 YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY")
-
 
 video_schema = VideoSchema()
 comment_schema = CommentSchema()
@@ -82,7 +76,6 @@ def postVideo():
             'price': int(view_count) / 0.4 / 346
         }
     vidId = my_dict['videoId']
-    # video_get = Video.query.get(my_dict['videoId'])
     video_get = Video.query.filter_by(videoId=vidId).first()
 
     if video_get:

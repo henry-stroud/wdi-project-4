@@ -1,4 +1,4 @@
-import os # os is the env of the server you are running on, for eventual production
+import os
 
 db_uri = os.getenv('DATABASE_URL', 'postgres://localhost:5432/videos')
-secret = os.getenv('SECRET', 'doop') #backup phrase is the second argument
+secret = os.getenv('SECRET', 'doop')

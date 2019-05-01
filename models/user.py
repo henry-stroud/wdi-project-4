@@ -19,24 +19,18 @@ class User(db.Model, BaseModel):
     @hybrid_property
     def password(self):
         pass
-            # self is the equivalent of this
-            # hybrid is the equivalent of a virtual, on the model virtually
-            # making a virtual field called password.
     @password.setter
     def password(self, plaintext):
         self.password_hash = bcrypt.generate_password_hash(plaintext).decode('utf-8')
-        # hashing the password
 
     def validate_password(self, plaintext):
         return bcrypt.check_password_hash(self.password_hash, plaintext)
 
     def generate_token(self):
-        #self is like 'this' in javascript
         payload = {
         'exp': datetime.utcnow() + timedelta(days=1),
-        #timedelta works out 1 day added on and token will expire after that
-        'iat': datetime.utcnow(), # this is the time the token was issued at
-        'sub': self.id #this is the user's ID
+        'iat': datetime.utcnow(),
+        'sub': self.id
         }
 
         token = jwt.encode(
@@ -57,18 +51,15 @@ class UserSchema(ma.ModelSchema, BaseSchema):
             'Passwords do not match',
             'password_confirmation'
             )
-            #if passwords dont match raise an error
 
     password = fields.String(
         required=True,
         validate=[validate.Length(min=2, max=50)]
     )
-    # this is defining what i want in my json object before i store it in sql
 
     password_confirmation = fields.String(required=True)
 
     owned_videos = fields.Nested('VideoSchema', many=True)
-    #this is the same name as the backref in planet model, 'created_planets'
 
     likes = fields.Nested('VideoSchema', many=True, only=('id', 'name'))
 

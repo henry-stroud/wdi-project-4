@@ -37,23 +37,6 @@ class Home extends React.Component {
         .catch((err) => console.log(err))))
   }
 
-  // getTopVideos() {
-  //   axios.get('/api/videos/topvideos')
-  //     .then((res) => this.setState({topVids: res.data}, () => console.log(this.state.topVids)))
-  //     .catch((err) => console.log(err))
-  // }
-  //
-  // searchByQuery(query) {
-  //   axios.get('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25', { query: query })
-  //     .then((res) => {
-  //       console.log(res.data)
-  //       const filtered = res.data.items.filter(data => data.id && data.id.kind === 'youtube#video')
-  //       console.log(filtered)
-  //       this.setState({searchResults: filtered}, () => console.log(this.state, 'HELLO'))
-  //     })
-  //     .catch((err) => console.log(err.response))
-  // }
-
   getTopVideos() {
     axios.get(`https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=US&key=${apiKey}`)
       .then((res) => this.setState({topVids: res.data}, () => console.log(this.state.topVids)))

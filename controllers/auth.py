@@ -34,15 +34,11 @@ def login():
     print(data, 'this is the login json')
 
     user = User.query.filter_by(username=data.get('username')).first()
-    # we are finding the user that is trying to login, first one you find should be the exact match
 
     if not user or not user.validate_password(data.get('password', '')):
-        # validate_password is from the user model
         return jsonify({'message': 'Unauthorized'}), 401
 
     return jsonify({
         'message': 'Welcome back {}!'.format(user.username),
         'token': user.generate_token()
     })
-
-    #.format builds the user name into the {} into the message

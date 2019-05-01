@@ -39,21 +39,22 @@
   flex-direction: row;
   padding: 10px;
   justify-content: center;
+  align-items: center;
 }
 
 .video {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  width: 500px;
+  justify-content: flex-end;
+  width: 480px;
   height: 500px;
   padding: 10px;
   cursor: pointer;
 }
 
 .video-title {
-  max-width: 500px;
-  font-size: 210%;
+  max-width: 480px;
+  font-size: 200%;
 }
 
 #description {

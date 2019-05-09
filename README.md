@@ -24,19 +24,22 @@
 You can find a hosted version here ----> [you-bet.herokuapp.com/](https://you-bet.herokuapp.com/)
 
 ### Overview
-Artistify is an application that allows the user to sign in via Spotify OAuth through their Implicit Grant Authorization Flow, and in turn search for any Artist in the world. The search results will return that artist's Top Ten Tracks on Spotify (embedded and playable), their Nationality displayed on a map, their biography and also whether they are on tour or not.
 
-Artistify was a solo project, and my fourth and final project at General Assembly's Web Development Immersive Course, built in one week.
+YouBet is an application that creates a game marketplace from the YouTube video network, adding a price to each YouTube video whilst giving users credits to purchase and sell these videos. The aim of the game is to become top of the user leaderboard, with the highest accumulative portfolio value.
+
+YouBet was a solo project, and my fourth and final project at General Assembly's Web Development Immersive Course, built in one week.
 
 ### Brief
-- **Build a React application** that consumes a **public API**.
-- **Have several components** - At least one classical and one functional.
-- **The app should include a router** - with several "pages".
-- Have **semantically clean HTML**
-- **Be deployed online** and accessible to the public.
-- **Work in pairs**
+- **Build a full-stack application** building backend and front-end
+- **Use Python Flask** to serve your data from a Postgres database
+- **Consume your API with a separate front-end** built with React
+- **Be a complete product** which most likely means multiple relationships and CRUD functionality for at least a couple of models
+- **Have a visually impressive design**
+- **Be deployed online** so it's publicly accessible.
 
 ### Process
+
+We began the project by exchanging possible ideas for the application, we settled on the idea of a social network for computer gamers, that used an external API IGDB (Internet Game Database). We decided to partition the initial workload, using a Trello board to determine the tasks that needed to be done as well as assigning  
 
 We began the project by mapping out wireframes of exactly how we would like the site to look when finished. We settled on the idea of an application that would search any artist in the world, and return interactive data about them. We decided that the best API to use for this was Spotify's, as we imagined it would have all the data we would need for this. However, we quickly found that Spotify only returned song, album and artist data with no biography.
 

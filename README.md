@@ -19,14 +19,14 @@
 
 ## My Project - YouBet
 
-![YouBet](https://raw.githubusercontent.com/henry-stroud/wdi-project-2/master/img/artistify.png)
+![YouBet](https://github.com/henry-stroud/wdi-project-4/blob/master/img/homepage.png?raw=true)
 
-You can find a hosted version here ----> [artistifyapii.herokuapp.com](https://artistifyapii.herokuapp.com/)
+You can find a hosted version here ----> [you-bet.herokuapp.com/](https://you-bet.herokuapp.com/)
 
 ### Overview
 Artistify is an application that allows the user to sign in via Spotify OAuth through their Implicit Grant Authorization Flow, and in turn search for any Artist in the world. The search results will return that artist's Top Ten Tracks on Spotify (embedded and playable), their Nationality displayed on a map, their biography and also whether they are on tour or not.
 
-Artistify was a pair project, and my second project at General Assembly's Web Development Immersive Course, built in 2.5 days.
+Artistify was a solo project, and my fourth and final project at General Assembly's Web Development Immersive Course, built in one week.
 
 ### Brief
 - **Build a React application** that consumes a **public API**.

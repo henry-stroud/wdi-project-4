@@ -39,93 +39,251 @@ YouBet was a solo project, and my fourth and final project at General Assembly's
 
 ### Process
 
-We began the project by exchanging possible ideas for the application, we settled on the idea of a social network for computer gamers that used an external API, IGDB (Internet Game Database). We decided to partition the initial workload, using a Trello board to determine the tasks that needed to be done as well as assigning these tasks to each team member.
+I initially decided that I would build an app that would emulate a fantasy football type team with music artists. I decided that I would use the Spotify API to gather artist play count and work out a formula that gave each artist a value, as well as assigning credits to the user. However, I quickly found that Spotify's data did not update regularly enough for a reliable game-based app, so I instead converted to YouTube's Data API, concentrating on video view count and data that updated every 5 minutes.
 
-![screenshot - Trello Board](https://github.com/henry-stroud/wdi-project-4/blob/master/img/Trello.png?raw=true)
+With my plan laid out on Trello and wireframes drawn out, I set about building the back-end for my app, using Python, Flask and SQLAlchemy (the Python SQL toolkit and ORM) with an SQL database.
 
-After we had laid out the initial work to be done, we set about building the wireframes for the project. We decided on a multi-page layout with an option for login and exclusive content to logged in users.
+I focused on two main models, the user and video models, I needed to create a transaction model that would be referenced on both the user and video models. I also had to create a video model that would align with the data served by YouTube's API so that I could attach my own data to it, such as transactions from users.
 
-![screenshot - Login Page - WireFrame](https://github.com/henry-stroud/wdi-project-4/blob/master/img/wireframe2.png?raw=true)
+Below is a code snipper from the video model, including transactions, comments and likes:
 
-![screenshot - Home Page - WireFrame](https://github.com/henry-stroud/wdi-project-4/blob/master/img/wireframe4.png?raw=true)
+```
+from app import db, ma #imported db(sqlalchemy) and ma (marshmallow)
+from marshmallow import fields
+from .base import BaseModel #we use .base as we are in the same folder, models which base.py is in
+from .user import User
+# from models.transaction import Transaction, TransactionSchema
 
-![screenshot - Game Page - WireFrame](https://github.com/henry-stroud/wdi-project-4/blob/master/img/wireframe3.png?raw=true)
+likes = db.Table(
+    'likes',
+    db.Column('video_id', db.Integer, db.ForeignKey('videos.id')),
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'))
+)
 
-The project work was divided between the three of us, I focused mainly on the back-end models, as well as the relationship between our API, IGDB's API and the Front-End.
+owned_videos = db.Table(
+    'owned_videos',
+    db.Column('video_id', db.Integer, db.ForeignKey('videos.id')),
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'))
+)
 
-I studied the documentation for the IGDB API and quickly found that they used Apicalypse, a minimalistic query language for RESTful APIs. I had to learn the basics of this before being able to execute GET requests to the API, which was a little time-consuming. Once I had figured this out, I delve into making a series of requests - finding that the API was structured in a way that meant I had to make multiple requests to achieve the data I needed.
+class Video(db.Model, BaseModel):
+
+    __tablename__ = 'videos'
+
+    title = db.Column(db.String(128), nullable=False)
+    published_at = db.Column(db.String(128), nullable=False)
+    videoId = db.Column(db.String(40), nullable=False, unique=True)
+    view_count = db.Column(db.String(128), nullable=False)
+    price = db.Column(db.Integer, nullable=False)
+    owned_by_id = db.Column(db.Integer, db.ForeignKey('users.id')) # this is the table of users
+    owned_by = db.relationship('User', secondary=owned_videos, backref='owned_videos')
+    liked_by = db.relationship('User', secondary=likes, backref='likes')
+
+class Transaction(db.Model, BaseModel):
+
+    __tablename__ = 'transactions'
+
+    buy = db.Column(db.Boolean)
+    price_of_deal = db.Column(db.Integer)
+    view_count_at_deal = db.Column(db.String(128))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = db.relationship('User', backref='user_transaction')
+    video_id = db.Column(db.Integer, db.ForeignKey('videos.id'))
+    videos = db.relationship('Video', backref='video_transaction')
+
+class Comment(db.Model, BaseModel):
+    __tablename__ = 'comments'
+
+    content = db.Column(db.Text, nullable=False)
+    video_id = db.Column(db.Integer, db.ForeignKey('videos.id'))
+    video = db.relationship('Video', backref='comments')
+
+class CommentSchema(ma.ModelSchema):
+
+    class Meta:
+        model = Comment
+
+class VideoSchema(ma.ModelSchema):
+    comments = fields.Nested('CommentSchema', many=True, only=('content', 'id'))
+    owned_by = fields.Nested('UserSchema', many=True, only=('id', 'username'))
+    liked_by = fields.Nested('UserSchema', many=True, only=('id', 'username'))
+    video_transaction = fields.Nested('TransactionSchema', many=True)
+    class Meta:
+        model = Video
+
+class TransactionSchema(ma.ModelSchema):
+    videos = fields.Nested('VideoSchema', only=('id'))
+    user = fields.Nested('UserSchema', only=('id', 'username'))
+
+    class Meta:
+        model = Transaction
+
+```
+
+
+Once I had built out the back-end and tested all the routes in Insomnia, I moved on to displaying the data in the front-end via React, making axios requests to my back-end. I routed all the external API calls through my back-end, and also created a price index in my back-end that added a price to each YouTube video, that would then update everytime new data is gathered from YouTube's API. The code snippet for the price formula is below:
+
+```
+
+@api.route('/videos/localvideo/post', methods=['POST'])
+def postVideo():
+    data = request.get_json()
+    published_at = data['data'].get('items')[0].get('snippet')['publishedAt']
+    view_count = data['data'].get('items')[0].get('statistics')['viewCount']
+    parsed_date = parse(published_at)
+    today = datetime.now(timezone.utc)
+    date_difference = today - parsed_date
+    if date_difference.days:
+        my_dict = {
+            'published_at' : data['data'].get('items')[0].get('snippet')['publishedAt'],
+            'title' : data['data'].get('items')[0].get('snippet')['title'],
+            'videoId' : data['data'].get('items')[0].get('id'),
+            'view_count' : data['data'].get('items')[0].get('statistics')['viewCount'],
+            'price': int(view_count) / date_difference.days / 346
+        }
+    elif not date_difference.days:
+        my_dict = {
+            'published_at' : data['data'].get('items')[0].get('snippet')['publishedAt'],
+            'title' : data['data'].get('items')[0].get('snippet')['title'],
+            'videoId' : data['data'].get('items')[0].get('id'),
+            'view_count' : data['data'].get('items')[0].get('statistics')['viewCount'],
+            'price': int(view_count) / 0.4 / 346
+        }
+    vidId = my_dict['videoId']
+    video_get = Video.query.filter_by(videoId=vidId).first()
+
+    if video_get:
+        video_schema.load(my_dict)
+        return video_schema.jsonify(video_get), 200
+
+    video, errors = video_schema.load(my_dict)
+    if errors:
+        return jsonify(errors), 422
+    video.save()
+    return video_schema.jsonify(video)
+
+
+```
+
+I also created a route that would update all the video data that had been accessed on my site by users, aka. all the videos that had been bought or purchased on the site.
+
+One of the most complicated routes I created was the transaction route, which worked out whether a user had bought or sold a video, and then added to the list of transactions that user had made.
+
+Below is a snipper of the transaction route:
+
+```
+@api.route('/transactions', methods=['POST'])
+@secure_route
+def create():
+    data = request.get_json()
+    current_user = g.current_user
+    vidId = data['videoId']
+    video_get = Video.query.filter_by(videoId=vidId).first()
+    if data['buy'] == 'True':
+        if video_get not in current_user.owned_videos:
+            if current_user.balance > video_get.price:
+                transaction, errors = transaction_schema.load(data)
+                if errors:
+                    return jsonify(errors), 422
+                video_get.owned_by.append(current_user)
+                transaction.user = current_user
+                transaction.videos = video_get
+                transaction.view_count_at_deal = video_get.view_count
+                transaction.price_of_deal = video_get.price
+                transaction.save()
+                video_get.save()
+                return transaction_schema.jsonify(transaction), 200
+        if video_get in current_user.owned_videos:
+            return jsonify({'message': 'Cannot process transaction, you already own this video'}), 401
+        return jsonify({'message': 'Cannot process transaction, balance not high enough'}), 401
+    if video_get in current_user.owned_videos:
+        transaction, errors = transaction_schema.load(data)
+        if errors:
+            return jsonify(errors), 422
+        video_get.owned_by.remove(current_user)
+        transaction.user = current_user
+        transaction.videos = video_get
+        transaction.view_count_at_deal = video_get.view_count
+        transaction.price_of_deal = video_get.price
+        current_user.balance = current_user.balance + video_get.price
+        transaction.save()
+        video_get.save()
+        return transaction_schema.jsonify(transaction), 200
+    return jsonify({'message': 'Cannot process transaction, you do not own this video'}), 401
+
+```
 
 ![screenshot - Home Page](https://github.com/henry-stroud/wdi-project-4/blob/master/img/homepage.png?raw=true)
 
-I then set about building the back-end wireframes, before creating them with Mongoose / MongoDB
-
-![screenshot - Sign in](https://github.com/henry-stroud/wdi-project-2/blob/master/img/spotify-login.png?raw=true)
-
-Using axios to make API requests, as well promises, we chained together several API requests in an order that took the initial search from the user and parsed that data through each API to gather the correct result. We also had to encode the data into URL format, so the query could be read by the API request.
-
-![screenshot - Spotify Login](https://github.com/henry-stroud/wdi-project-2/blob/master/img/sign-in.png?raw=true)
-
-This data was then mapped out into each component, and reset after each new search by the user.
 
 ### Challenges
 
-One of the main challenges was allowing a user to login via Spotify. This was actually completed after the project had finished, as I became aware of a React plugin that allowed for Implicit Grant Authorization access. After some research online I managed to apply the component to our site, as well as setting the temporary apiKey in state to be used by the user and site. This meant that any user worldwide can login with their account and receive all the data they need.
-
-We also went through some challenges with passing state down to child components. We figured out that it was much more convenient to hold the state in our main app.js file and then pass the props down from there rather than through unrelated components.
-
-### Wins
-
-One of the biggest wins was adding the Spotify login auth as stated above. Beforehand we were manually generating a key to be used every hour with the app, that was not sufficient for a public website. Another win was getting the correct data to display from lastFM as we had some trouble navigating their API data.
-
-Another big win was getting the map to reset and re-load each time using previous props in the componentDidUpdate function, as we struggled with this initially.
-
-The below code is a snippet of the map.
+I ended up having to use a variety of array methods in order to calculate the purchase prices for each user transaction, which resulted in the lengthy function below:
 
 ```
-class Map extends React.Component {
-  constructor() {
-    super()
-    this.markers = null
-  }
-  componentDidMount() {
-    this.map = new mapboxgl.Map({
-      container: this.mapDiv,
-      style: 'mapbox://styles/mapbox/streets-v9',
-      center: this.props.center,
-      zoom: 2
-    })
-    this.setMarkers()
-  }
-
-  setMarkers(){
-    this.marker =  new mapboxgl.Marker()
-      .setLngLat(this.props.center)
-      .addTo(this.map)
-    return this.marker
-  }
-
-  componentDidUpdate(prev) {
-    if(this.props.center !== prev.center) {
-      this.map = new mapboxgl.Map({
-        container: this.mapDiv,
-        style: 'mapbox://styles/mapbox/streets-v9',
-        center: this.props.center,
-        zoom: 2
+calculatePurchasePrices(profileData) {
+  if (profileData.owned_videos.length && profileData.user_transaction.length) {
+    const transactions = profileData.user_transaction
+    const ownedVideos = profileData.owned_videos
+    const array = []
+    ownedVideos.forEach(function (video) {
+      const videoTransactions = []
+      transactions.forEach(function (transaction) {
+        if (transaction.buy && video.id === transaction.videos) {
+          videoTransactions.push([{id: video.id, price_at_deal: transaction.price_of_deal, view_count_at_deal: transaction.view_count_at_deal, date_of_deal: transaction.created_at}])
+        }
       })
-      this.setMarkers()
-    }
-  }
-
-
-  render() {
-    return(
-      <div className="map" ref={el => this.mapDiv = el}>
-      </div>
-    )
+      const latest = videoTransactions.reduce(function (r, a) {
+        return r.date_of_deal > a.date_of_deal ? r : a
+      })
+      const newArray = {...latest[0]}
+      array.push(newArray)
+    })
+    this.setState({...this.state, ownedVideoData: array})
+    const result = this.props.location.state.userProfile.owned_videos.map(ownedVideo => ({...array.find(data => ownedVideo.id === data.id), ...ownedVideo}))
+    const userProfile = {...this.props.location.state.userProfile}
+    const sortedResult = result.sort(this.compareDeal)
+    userProfile.owned_videos = sortedResult
+    this.setState({userProfile})
   }
 }
 ```
 
+This was likely due to the way I had structured my back-end, and taught me in the future to further plan my next project. As transaction history was only a feature I added after completing the wireframing.
+
+
+### Wins
+
+Probably the biggest win was getting the Advanced Python Scheduler (APS) to work, allowing me to make a get request to a specific link on my deployed site in order to stop and start a 2-hourly update of all the data on my site.
+
+```
+scheduler = APScheduler()
+scheduler.init_app(app)
+scheduler.start()
+
+@app.route('/run-tasks')
+def run_tasks():
+    scheduler.add_job(func=updateData, trigger='interval', seconds=7200, id='1')
+    return 'Video Data Updating', 200
+
+@app.route('/stop-tasks')
+def stop_tasks():
+    scheduler.remove_job('1')
+    return 'Video Data Stopped Updating', 200
+
+def updateData():
+    print('ran-task')
+    if app.config['ENV'] == 'development':
+        response = requests.put(
+          'http://localhost:5000/api/videos/localvideos/update')
+        return response.text, 200, {'Content-Type': 'application/json'}
+    else:
+        response = requests.put(
+          'https://you-bet.herokuapp.com/api/videos/localvideos/update')
+        return response.text, 200, {'Content-Type': 'application/json'}
+
+```
+
 ## Future features
 
-At the moment the app is quite slow, due to the chaining of API calls. I think in order to make it faster I would do further research into an API that could provide all the data needed, rather than filtering through what ended up being four different APIs. If I had more time I would have liked to make the app more responsive on mobile.
+I would have liked to make the app faster, consolidating the back-end, as well as possibly cycling through API keys in order to allow fresher updates for the app data.

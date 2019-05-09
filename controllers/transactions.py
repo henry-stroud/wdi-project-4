@@ -17,14 +17,8 @@ def index():
 def create():
     data = request.get_json()
     current_user = g.current_user
-    print(current_user.balance, 'Hello')
     vidId = data['videoId']
     video_get = Video.query.filter_by(videoId=vidId).first()
-    print(vidId, 'VIDEOID')
-    print(video_get.price, 'VIDEO PRICE')
-    print(video_get.view_count, 'VIDEO VIEW COUNT')
-    print(data['buy'], 'BUY BOOLEAN')
-    print(current_user.owned_videos, 'DIS DE CURRENT USER')
     if data['buy'] == 'True':
         if video_get not in current_user.owned_videos:
             if current_user.balance > video_get.price:
@@ -36,15 +30,12 @@ def create():
                 transaction.videos = video_get
                 transaction.view_count_at_deal = video_get.view_count
                 transaction.price_of_deal = video_get.price
-                new_balance = current_user.balance = current_user.balance - video_get.price
-                print(new_balance, 'NEW USER BALANCE')
                 transaction.save()
                 video_get.save()
                 return transaction_schema.jsonify(transaction), 200
         if video_get in current_user.owned_videos:
             return jsonify({'message': 'Cannot process transaction, you already own this video'}), 401
         return jsonify({'message': 'Cannot process transaction, balance not high enough'}), 401
-    print('THIS IS A SELL')
     if video_get in current_user.owned_videos:
         transaction, errors = transaction_schema.load(data)
         if errors:

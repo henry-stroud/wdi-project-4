@@ -57,8 +57,6 @@ def postVideo():
     parsed_date = parse(published_at)
     today = datetime.now(timezone.utc)
     date_difference = today - parsed_date
-    print(date_difference, 'datediff')
-    print(date_difference.days, 'days')
     if date_difference.days:
         my_dict = {
             'published_at' : data['data'].get('items')[0].get('snippet')['publishedAt'],

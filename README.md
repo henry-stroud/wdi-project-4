@@ -39,7 +39,11 @@ YouBet was a solo project, and my fourth and final project at General Assembly's
 
 ### Process
 
-We began the project by exchanging possible ideas for the application, we settled on the idea of a social network for computer gamers, that used an external API IGDB (Internet Game Database). We decided to partition the initial workload, using a Trello board to determine the tasks that needed to be done as well as assigning  
+We began the project by exchanging possible ideas for the application, we settled on the idea of a social network for computer gamers that used an external API, IGDB (Internet Game Database). We decided to partition the initial workload, using a Trello board to determine the tasks that needed to be done as well as assigning these tasks to each team member.
+
+![screenshot - Trello Board](https://github.com/henry-stroud/wdi-project-4/blob/master/img/Trello.png?raw=true)
+
+After we had laid out the initial work to be done, we set about building the wireframes for the project 
 
 We began the project by mapping out wireframes of exactly how we would like the site to look when finished. We settled on the idea of an application that would search any artist in the world, and return interactive data about them. We decided that the best API to use for this was Spotify's, as we imagined it would have all the data we would need for this. However, we quickly found that Spotify only returned song, album and artist data with no biography.
 

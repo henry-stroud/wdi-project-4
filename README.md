@@ -221,7 +221,9 @@ def create():
 
 ![screenshot - Login](https://github.com/henry-stroud/wdi-project-4/blob/master/img/login.png?raw=true)
 
-![screenshot - Home Page](https://github.com/henry-stroud/wdi-project-4/blob/master/img/homepage.png?raw=true)
+![screenshot - Portfolio](https://github.com/henry-stroud/wdi-project-4/blob/master/img/portfolionew.png?raw=true)
+
+![screenshot - Transactions](https://github.com/henry-stroud/wdi-project-4/blob/master/img/transactions.png?raw=true)
 
 
 ### Challenges

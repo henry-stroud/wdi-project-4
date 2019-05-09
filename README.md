@@ -43,13 +43,21 @@ We began the project by exchanging possible ideas for the application, we settle
 
 ![screenshot - Trello Board](https://github.com/henry-stroud/wdi-project-4/blob/master/img/Trello.png?raw=true)
 
-After we had laid out the initial work to be done, we set about building the wireframes for the project 
+After we had laid out the initial work to be done, we set about building the wireframes for the project. We decided on a multi-page layout with an option for login and exclusive content to logged in users.
 
-We began the project by mapping out wireframes of exactly how we would like the site to look when finished. We settled on the idea of an application that would search any artist in the world, and return interactive data about them. We decided that the best API to use for this was Spotify's, as we imagined it would have all the data we would need for this. However, we quickly found that Spotify only returned song, album and artist data with no biography.
+![screenshot - Login Page - WireFrame](https://github.com/henry-stroud/wdi-project-4/blob/master/img/wireframe2.png?raw=true)
 
-![screenshot - Artistify Search](https://github.com/henry-stroud/wdi-project-2/blob/master/img/artistify-search.png?raw=true)
+![screenshot - Home Page - WireFrame](https://github.com/henry-stroud/wdi-project-4/blob/master/img/wireframe4.png?raw=true)
 
-We did some research into different music-based APIs online, and found Last FM, which was able to give us accurate biographical data on artists, as well as MusixMatch which gave data for artist nationality. We then had to use RestCountries' API to find the latitude and longitude of that country, and then decided to display that on a Mapbox map with a marker.
+![screenshot - Game Page - WireFrame](https://github.com/henry-stroud/wdi-project-4/blob/master/img/wireframe3.png?raw=true)
+
+The project work was divided between the three of us, I focused mainly on the back-end models, as well as the relationship between our API, IGDB's API and the Front-End.
+
+I studied the documentation for the IGDB API and quickly found that they used Apicalypse, a minimalistic query language for RESTful APIs. I had to learn the basics of this before being able to execute GET requests to the API, which was a little time-consuming. Once I had figured this out, I delve into making a series of requests - finding that the API was structured in a way that meant I had to make multiple requests to achieve the data I needed.
+
+![screenshot - Home Page](https://github.com/henry-stroud/wdi-project-4/blob/master/img/homepage.png?raw=true)
+
+I then set about building the back-end wireframes, before creating them with Mongoose / MongoDB
 
 ![screenshot - Sign in](https://github.com/henry-stroud/wdi-project-2/blob/master/img/spotify-login.png?raw=true)
 

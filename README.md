@@ -213,6 +213,14 @@ def create():
 
 ```
 
+### Screenshots
+
+![screenshot - Home Page](https://github.com/henry-stroud/wdi-project-4/blob/master/img/homepage.png?raw=true)
+
+![screenshot - Leader Board](https://github.com/henry-stroud/wdi-project-4/blob/master/img/leaderboard.png?raw=true)
+
+![screenshot - Login](https://github.com/henry-stroud/wdi-project-4/blob/master/img/login.png?raw=true)
+
 ![screenshot - Home Page](https://github.com/henry-stroud/wdi-project-4/blob/master/img/homepage.png?raw=true)
 
 

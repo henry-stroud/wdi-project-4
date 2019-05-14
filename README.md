@@ -306,3 +306,5 @@ I would have liked to make the app faster, consolidating the back-end, as well a
 #Key Takeaways
 
 One of the most valuable learnings from this project was proper planning and idea consolidation. I realised that I moved too quickly into trying to use Spotify's API without properly researching the limitations of the API, and will take this experience with me in future projects, to properly consider all the angles of my approach before diving into the pseudo code.
+
+Working solo on this project was also an eye-opening experience, as the last two large projects I had done were in groups. I learnt a lot working on my own and felt I consolidated my knowledge, however, I think working in a group would have given the app a more polished look and design.

@@ -1,8 +1,7 @@
-from app import db, ma #imported db(sqlalchemy) and ma (marshmallow)
+from app import db, ma
 from marshmallow import fields
-from .base import BaseModel #we use .base as we are in the same folder, models which base.py is in
+from .base import BaseModel
 from .user import User
-# from models.transaction import Transaction, TransactionSchema
 
 likes = db.Table(
     'likes',

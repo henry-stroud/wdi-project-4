@@ -16,6 +16,7 @@
 * SQLAlchemy
 * YouTube Data API v3
 * GitHub
+* Axios
 
 ## My Project - YouBet
 
@@ -25,13 +26,13 @@ You can find a hosted version here ----> [you-bet.herokuapp.com/](https://you-be
 
 ### Overview
 
-YouBet is an application that creates a game marketplace from the YouTube video network, adding a price to each YouTube video whilst giving users credits to purchase and sell these videos. The aim of the game is to become top of the user leaderboard, with the highest accumulative portfolio value.
+YouBet is an application that creates a game marketplace from the YouTube video network, adding a price to each YouTube video whilst giving users credits to purchase and sell these videos. The aim of the game is to become top of the user leaderboard, with the highest accumulative portfolio value (videos held and cash credits held).
 
-YouBet was a solo project, and my fourth and final project at General Assembly's Web Development Immersive Course, built in one week.
+YouBet was a solo project, and my fourth and final project at General Assembly's Web Development Immersive Course, built in one week. It was my first project using Python as well as Flask.
 
 ### Brief
 - **Build a full-stack application** building backend and front-end
-- **Use Python Flask** to serve your data from a Postgres database
+- **Use Flask** to serve your data from a Postgres database
 - **Consume your API with a separate front-end** built with React
 - **Be a complete product** which most likely means multiple relationships and CRUD functionality for at least a couple of models
 - **Have a visually impressive design**
@@ -43,16 +44,15 @@ I initially decided that I would build an app that would emulate a fantasy footb
 
 With my plan laid out on Trello and wireframes drawn out, I set about building the back-end for my app, using Python, Flask and SQLAlchemy (the Python SQL toolkit and ORM) with an SQL database.
 
-I focused on two main models, the user and video models, I needed to create a transaction model that would be referenced on both the user and video models. I also had to create a video model that would align with the data served by YouTube's API so that I could attach my own data to it, such as transactions from users.
+I focused on two main models, the user and video models. I also needed to create a transaction model that would be referenced on both the user and video models. I then had to create a video model that would align with the data served by YouTube's API so that I could attach my own data to it, such as transactions from users and price.
 
-Below is a code snipper from the video model, including transactions, comments and likes:
+Below is a code snippet from the video model, including transactions, comments and likes:
 
 ```
-from app import db, ma #imported db(sqlalchemy) and ma (marshmallow)
+from app import db, ma
 from marshmallow import fields
-from .base import BaseModel #we use .base as we are in the same folder, models which base.py is in
+from .base import BaseModel
 from .user import User
-# from models.transaction import Transaction, TransactionSchema
 
 likes = db.Table(
     'likes',
@@ -118,10 +118,11 @@ class TransactionSchema(ma.ModelSchema):
     class Meta:
         model = Transaction
 
+
 ```
 
 
-Once I had built out the back-end and tested all the routes in Insomnia, I moved on to displaying the data in the front-end via React, making axios requests to my back-end. I routed all the external API calls through my back-end, and also created a price index in my back-end that added a price to each YouTube video, that would then update everytime new data is gathered from YouTube's API. The code snippet for the price formula is below:
+Once I had built out the back-end and tested all the routes in Insomnia, I moved on to displaying the data in the front-end via React, making axios requests to my back-end. I routed all the external API calls through my back-end, and also created a price formula that added a price to each YouTube video depending on when it was published and it's view count, that would then update everytime new data is gathered from YouTube's API. The code snippet for the price formula is below:
 
 ```
 
@@ -165,11 +166,11 @@ def postVideo():
 
 ```
 
-I also created a route that would update all the video data that had been accessed on my site by users, aka. all the videos that had been bought or purchased on the site.
+I also created a route that would update all the video data that had been accessed on my site by users, i.e all the videos that had been bought or purchased on the site so far.
 
 One of the most complicated routes I created was the transaction route, which worked out whether a user had bought or sold a video, and then added to the list of transactions that user had made.
 
-Below is a snipper of the transaction route:
+Below is a snippet of the transaction route:
 
 ```
 @api.route('/transactions', methods=['POST'])
@@ -259,7 +260,9 @@ calculatePurchasePrices(profileData) {
 }
 ```
 
-This was likely due to the way I had structured my back-end, and taught me in the future to further plan my next project. As transaction history was only a feature I added after completing the wireframing.
+This was likely due to the way I had structured my back-end, and taught me in the future to further plan my next project, as transaction history was only a feature I added and thought through after completing the wireframing.
+
+Another challenge was the time constraint, as I spent a lot of time figuring out how to use YouTube's API with my own backend.
 
 
 ### Wins
@@ -294,6 +297,12 @@ def updateData():
 
 ```
 
+Another win was creating the Transactions table and also the Portfolio page, allowing users to click through the leaderboard and check the videos owned by other users on the site.
+
 ## Future features
 
-I would have liked to make the app faster, consolidating the back-end, as well as possibly cycling through API keys in order to allow fresher updates for the app data.
+I would have liked to make the app faster, consolidating the back-end, as well as possibly cycling through API keys in order to allow fresher updates for the app data. I would also like to look into using a CSS framework to design the site, perhaps something like Materialize or Material Design, as currently the design is quite sparse.
+
+#Key Takeaways
+
+One of the most valuable learnings from this project was proper planning and idea consolidation. I realised that I moved too quickly into trying to use Spotify's API without properly researching the limitations of the API, and will take this experience with me in future projects, to properly consider all the angles of my approach before diving into the pseudo code.

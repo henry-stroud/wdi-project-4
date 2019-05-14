@@ -26,7 +26,7 @@ You can find a hosted version here ----> [you-bet.herokuapp.com/](https://you-be
 
 ### Overview
 
-YouBet is an application that creates a game marketplace from the YouTube video network, adding a price to each YouTube video whilst giving users credits to purchase and sell these videos. The aim of the game is to become top of the user leaderboard, with the highest accumulative portfolio value (videos held and cash credits held).
+YouBet is an application that creates a game marketplace from the YouTube video network, adding a price to each YouTube video whilst giving users credits to purchase and sell these videos. The aim of the game is to become top of the user leaderboard, with the highest total portfolio value (videos held and cash credits held).
 
 YouBet was a solo project, and my fourth and final project at General Assembly's Web Development Immersive Course, built in one week. It was my first project using Python as well as Flask.
 

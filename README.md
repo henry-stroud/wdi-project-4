@@ -303,7 +303,7 @@ Another win was creating the Transactions table and also the Portfolio page, all
 
 I would have liked to make the app faster, consolidating the back-end, as well as possibly cycling through API keys in order to allow fresher updates for the app data. I would also like to look into using a CSS framework to design the site, perhaps something like Materialize or Material Design, as currently the design is quite sparse.
 
-#Key Takeaways
+## Key Takeaways
 
 One of the most valuable learnings from this project was proper planning and idea consolidation. I realised that I moved too quickly into trying to use Spotify's API without properly researching the limitations of the API, and will take this experience with me in future projects, to properly consider all the angles of my approach before diving into the pseudo code.
 

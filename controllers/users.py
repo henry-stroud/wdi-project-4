@@ -21,11 +21,7 @@ def show(user_id):
 @api.route('/currentuser', methods=['GET'])
 @secure_route
 def showCurrentUser():
-    print('HELLO')
-    print(g.current_user, 'THIS IS CURRENT USER')
     current_user = g.current_user
-    for item in current_user.user_transaction:
-        print(item.videos)
     return user_schema.jsonify(current_user), 200
 
 @api.route('/currentuser', methods=['DELETE'])

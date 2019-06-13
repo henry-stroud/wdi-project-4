@@ -39,7 +39,6 @@ def searchVideos():
 @api.route('/videos/localvideo', methods=['POST'])
 def getVideoData():
     data = request.get_json()
-    print(request)
     params = {
     'key': YOUTUBE_API_KEY,
     'id': data['videoId'],
@@ -89,7 +88,6 @@ def postVideo():
 @api.route('/videos/localvideos/update', methods=['PUT'])
 def updateVideos():
     videos = Video.query.all()
-    print(videos, 'VIDEOS UPDATING')
     for video in videos:
         params = {
         'key': YOUTUBE_API_KEY,
@@ -98,7 +96,6 @@ def updateVideos():
         response = requests.get(
           'https://www.googleapis.com/youtube/v3/videos?part=statistics%2C%20contentDetails%2C%20snippet',
           params=params)
-        print(response.json(), 'videodatacomingin')
         if response.json()['items']:
             updated_view_count = response.json().get('items')[0].get('statistics')['viewCount']
             published_date = response.json().get('items')[0].get('snippet')['publishedAt']
@@ -130,7 +127,6 @@ def show(video_id):
 def create():
     data = request.get_json()
     video, errors = video_schema.load(data)
-    print(data, 'BANANAS')
     if errors:
         return jsonify(errors), 422
     video.owned_by = g.current_user
@@ -144,8 +140,6 @@ def update(video_id):
     video, errors = video_schema.load(request.get_json(), instance=video, partial=True)
     if errors:
         return jsonify(errors), 422
-    print(video.owned_by, 'owned_by')
-    print(g.current_user, 'currentuser')
     if video.owned_by != g.current_user:
         return jsonify({'message': 'Unauthorized'}), 401
 

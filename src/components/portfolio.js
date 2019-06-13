@@ -71,7 +71,6 @@ class Portfolio extends React.Component {
 
   handleClickTransaction(transaction) {
     axios.get(`/api/videos/${transaction.videos}`)
-      .then((res) => console.log(res.data))
       .catch((err) => console.log(err))
   }
 

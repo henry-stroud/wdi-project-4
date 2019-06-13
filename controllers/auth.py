@@ -31,7 +31,6 @@ def register():
 def login():
 
     data = request.get_json()
-    print(data, 'this is the login json')
 
     user = User.query.filter_by(username=data.get('username')).first()
 

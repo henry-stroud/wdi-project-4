@@ -33,7 +33,6 @@ def stop_tasks():
 from config import routes
 
 def updateData():
-    print('ran-task')
     if app.config['ENV'] == 'development':
         response = requests.put(
           'http://localhost:5000/api/videos/localvideos/update')
